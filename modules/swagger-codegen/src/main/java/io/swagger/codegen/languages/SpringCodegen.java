@@ -32,8 +32,8 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
 
     protected String title = "swagger-petstore";
-    protected String configPackage = "io.swagger.configuration";
-    protected String basePackage = "io.swagger";
+    protected String configPackage = "com.friends.configuration";
+    protected String basePackage = "com.friends";
     protected boolean interfaceOnly = false;
     protected boolean delegatePattern = false;
     protected boolean singleContentTypes = false;
@@ -49,9 +49,9 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         outputFolder = "generated-code/javaSpring";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpring";
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
-        invokerPackage = "io.swagger.api";
+        apiPackage = "com.friends.controller";
+        modelPackage = "com.friends.model";
+        invokerPackage = "com.friends.api";
         artifactId = "swagger-spring";
 
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
@@ -90,6 +90,21 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         return CodegenType.SERVER;
     }
 
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+
+        if (hasEncryptedId(parameter)){
+            parameter.dataType = "EntityId";
+            parameter.isEncryptedId = true;
+
+
+        }
+    }
+
+    public boolean hasEncryptedId(CodegenParameter parameter){
+        Object enc = parameter.vendorExtensions.get("x-encrypted-id");
+        return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
+    }
     @Override
     public String getName() {
         return "spring";
@@ -176,17 +191,17 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
 
         if (!this.interfaceOnly) {
             if (library.equals(DEFAULT_LIBRARY)) {
-                supportingFiles.add(new SupportingFile("homeController.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
-                supportingFiles.add(new SupportingFile("swagger2SpringBoot.mustache",
-                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
-                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
-                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
-                supportingFiles.add(new SupportingFile("application.mustache",
-                        ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
+//                supportingFiles.add(new SupportingFile("homeController.mustache",
+//                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
+//                supportingFiles.add(new SupportingFile("swagger2SpringBoot.mustache",
+//                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
+//                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
+//                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
+//                supportingFiles.add(new SupportingFile("application.mustache",
+//                        ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
             }
             if (library.equals(SPRING_MVC_LIBRARY)) {
-                supportingFiles.add(new SupportingFile("webApplication.mustache",
+                /*supportingFiles.add(new SupportingFile("webApplication.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
                 supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebMvcConfiguration.java"));
@@ -195,7 +210,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
                 supportingFiles.add(new SupportingFile("application.properties",
-                        ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));
+                        ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));*/
             }
             if (library.equals(SPRING_CLOUD_LIBRARY)) {
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
@@ -211,7 +226,8 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
 
             } else {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
-                supportingFiles.add(new SupportingFile("apiException.mustache",
+                apiTemplateFiles().remove("api.mustache");
+                /*supportingFiles.add(new SupportingFile("apiException.mustache",
                         (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiException.java"));
                 supportingFiles.add(new SupportingFile("apiResponseMessage.mustache",
                         (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiResponseMessage.java"));
@@ -220,7 +236,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                 supportingFiles.add(new SupportingFile("apiOriginFilter.mustache",
                         (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
                 supportingFiles.add(new SupportingFile("swaggerDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerDocumentationConfig.java"));
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerDocumentationConfig.java"));*/
             }
         }
 
@@ -538,6 +554,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
             property.example = null;
         }
 
+
         //Add imports for Jackson
         if (!Boolean.TRUE.equals(model.isEnum)) {
             model.imports.add("JsonProperty");
@@ -551,6 +568,8 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                 model.imports.add("JsonCreator");
             }
         }
+                model.imports.remove("ApiModelProperty");
+        model.imports.remove("ApiModel");
     }
 
     @Override

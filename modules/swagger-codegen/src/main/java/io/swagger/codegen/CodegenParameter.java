@@ -14,7 +14,7 @@ public class CodegenParameter {
 
     public String example; // example value (x-example)
     public String jsonSchema;
-    public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
+    public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isEncryptedId;
     public boolean isListContainer, isMapContainer;
     public boolean isFile, notFile;
     public boolean isEnum;
@@ -117,6 +117,7 @@ public class CodegenParameter {
         output.defaultValue = this.defaultValue;
         output.example = this.example;
         output.isEnum = this.isEnum;
+        output.isEncryptedId = this.isEncryptedId;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
         }
@@ -208,6 +209,8 @@ public class CodegenParameter {
         if (jsonSchema != null ? !jsonSchema.equals(that.jsonSchema) : that.jsonSchema != null)
             return false;
         if (isString != that.isString)
+            return false;
+        if (isEncryptedId != that.isEncryptedId)
             return false;
         if (isInteger != that.isInteger)
             return false;
@@ -308,6 +311,7 @@ public class CodegenParameter {
         result = 31 * result + (isDate ? 13:31);
         result = 31 * result + (isDateTime ? 13:31);
         result = 31 * result + (isListContainer ? 13:31);
+        result = 31 * result + (isEncryptedId ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);
         result = 31 * result + (notFile ? 13:31);

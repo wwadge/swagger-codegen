@@ -2582,6 +2582,7 @@ public class DefaultCodegen {
         // See: https://github.com/swagger-api/swagger-codegen/issues/2561
         if (param instanceof QueryParameter) {
             p.isQueryParam = true;
+
         } else if (param instanceof PathParameter) {
             p.required = true;
             p.isPathParam = true;
