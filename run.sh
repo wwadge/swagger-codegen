@@ -1,3 +1,3 @@
 #!/bin/bash
-java -jar ./modules/swagger-codegen-cli/target/swagger-codegen-cli.jar  generate -i friends.yml --import-mappings EntityId=com.friends.transactionhandler.util.EntityId -c ./generator-config.json  -l spring -t ./modules/swagger-codegen/src/main/resources/JavaSpring/ -o /Users/wwadge/Documents/workspace/eft/friends-transaction-manager
+java -DdebugOperations2 -jar ./modules/swagger-codegen-cli/target/swagger-codegen-cli.jar  generate -i friends.yml --import-mappings MonetaryAmount=javax.money.MonetaryAmount,EntityId=com.friends.transactionhandler.util.EntityId -c ./generator-config.json  -l spring -t ./modules/swagger-codegen/src/main/resources/JavaSpring/ -o /tmp/test
 

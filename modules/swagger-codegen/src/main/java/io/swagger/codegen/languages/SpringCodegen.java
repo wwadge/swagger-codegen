@@ -181,7 +181,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+       // supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (this.interfaceOnly && this.delegatePattern) {
@@ -434,6 +434,8 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                         operation.returnContainer = "Set";
                     }
                 }
+
+
 
                 if(implicitHeaders){
                     removeHeadersFromAllParams(operation.allParams);

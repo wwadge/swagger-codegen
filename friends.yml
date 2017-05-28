@@ -1,10 +1,10 @@
 swagger: '2.0'
 info:
-  description: This is the Transaction Manager server reponsible for creating and retrieving accounts for customer and carrying out instructions for double entries.
+  description: This is the Transaction Manager server reponsible for creating and retrieving accounts for customer and carrying out instructions for double entries
   version: V1
   title: Transaction Manager
   contact:
-    email: apiteam@swagger.io
+    email: info@eftsoftware.com
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -20,7 +20,8 @@ tags:
 #   - http
 
 paths:
-  '/customers/{customerId}/accounts':
+
+  '/accounts':
     post:
       tags:
         - accounts
@@ -32,15 +33,9 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: a friendly name that uniquely identifies this account
-          required: true
-          type: string
-          x-encrypted-id: true
         - name: name
           in: query
-          description: a friendly name that uniquely identifies this account
+          description: 'a friendly name that uniquely identifies this account'
           required: true
           type: string
         - name: currency
@@ -68,13 +63,6 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          type: string
-          x-encrypted-id: true
       responses:
         '200':
           description: 'OK, list being returned'
@@ -90,7 +78,7 @@ paths:
           description: Unauth
         '404':
           description: Account not found
-  '/customers/{customerId}/accounts/{accountId}':
+  '/accounts/{accountId}':
     get:
       tags:
         - accounts
@@ -102,12 +90,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          type: string
-          x-encrypted-id: true
         - name: accountId
           in: path
           description: ID of account
@@ -127,7 +109,7 @@ paths:
           description: Unauth
         '404':
           description: Account not found
-  '/customers/{customerId}/accounts/{accountId}/entries':
+  '/account_entries':
     get:
       tags:
         - accounts
@@ -138,19 +120,6 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          type: string
-          x-encrypted-id: true
-        - name: accountId
-          in: path
-          description: ID of account
-          required: true
-          type: string
-          x-encrypted-id: true
       responses:
         '200':
           description: 'OK, list being returned'
@@ -162,7 +131,7 @@ paths:
           description: Access denied
         '404':
           description: Not found (does not match filter criteria)
-  '/customers/{customerId}/accounts/{accountId}/entries/{entryId}':
+  '/account_entries/{entryId}':
     get:
       tags:
         - accounts
@@ -174,18 +143,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          type: string
-          x-encrypted-id: true
-        - name: accountId
-          in: path
-          description: ID of account
-          required: true
-          type: string
-          x-encrypted-id: true
         - name: entryId
           in: path
           description: ID of entry
@@ -201,7 +158,7 @@ paths:
           description: Access denied
         '404':
           description: Not found (does not match filter criteria)
-  '/customers/{customerId}/instructions/commissions':
+  '/commissions':
     post:
       tags:
         - instructions
@@ -213,12 +170,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          type: string
-          x-encrypted-id: true
         - name: instructionRequest
           in: body
           required: true
@@ -233,7 +184,7 @@ paths:
           description: Access denied
         '403':
           description: Not authorized to access this endpoint
-  '/customers/{customerId}/instructions':
+  '/instructions':
     post:
       tags:
         - instructions
@@ -245,12 +196,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          type: string
-          x-encrypted-id: true
         - name: instructionRequest
           in: body
           required: true
@@ -276,12 +221,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          type: string
-          x-encrypted-id: true
         - name: instructionType
           in: query
           description: Type of instruction
@@ -313,7 +252,7 @@ paths:
           description: Access denied
         '404':
           description: Instruction not found
-  '/customers/{customerId}/instructions/{instructionId}':
+  '/instructions/{instructionId}':
     get:
       tags:
         - instructions
@@ -325,12 +264,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          x-encrypted-id: true
-          type: string
         - name: instructionId
           in: path
           x-encrypted-id: true
@@ -357,12 +290,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          type: string
-          x-encrypted-id: true
         - name: instructionId
           in: path
           x-encrypted-id: true
@@ -397,12 +324,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: customerId
-          in: path
-          description: ID of customer
-          required: true
-          x-encrypted-id: true
-          type: string
         - name: instructionId
           in: path
           description: ID of instruction
@@ -438,14 +359,9 @@ definitions:
       createdOn:
         type: string
         format: date-time
-        description: '2017-04-01 00:00    // https://en.wikipedia.org/wiki/ISO_8601 format'
+        description: 'Date in ISO8601 format'
       actualBalance:
-        type: number
-        description: '100'
-      currency:
-        type: string
-        maxLength: 3
-        description: 3-letter currency symbol
+        $ref: '#/definitions/MonetaryAmount'
       accountNumber:
         type: string
         maxLength: 16
@@ -453,6 +369,12 @@ definitions:
 
   AccountingEntry:
     type: object
+    required:
+      - 'id'
+      - 'timestamp'
+      - 'description'
+      - 'amount'
+      - 'runningBalance'
     properties:
       id:
         $ref: '#/definitions/EntityId'
@@ -469,11 +391,18 @@ definitions:
       runningBalance:
         type: number
         description: 400 at end of entry
+  MonetaryAmount:
+    type: object
+    properties:
+      value:
+        type: number
+        description: Monetary amount value
+      currency:
+        type: string
+        description: ISO-4217 Currency Code
   Endpoint:
     type: object
     properties:
-      id:
-        $ref: '#/definitions/EntityId'
       type:
         type: string
         description: Endpoint types
@@ -501,11 +430,7 @@ definitions:
       destinationEndpoint:
         $ref: '#/definitions/Endpoint'
       amount:
-        type: number
-        description: example 123
-      currency:
-        type: string
-        maxLength: 3
+        $ref: '#/definitions/MonetaryAmount'
       instructionReference:
         $ref: '#/definitions/EntityId'
       additionalParams:
@@ -556,5 +481,3 @@ schemes:
  - http
 # Added by API Auto Mocking Plugin
 basePath: /EFTSoft/friends-transaction-handler/V1
-
-
