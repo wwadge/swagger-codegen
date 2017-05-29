@@ -3,7 +3,7 @@
     <parent>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-codegen-project</artifactId>
-        <version>2.2.3-eft</version>
+        <version>2.2.3-eft-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -280,6 +280,10 @@
         </dependency>
 
     </dependencies>
+
+
+
+
     <repositories>
         <repository>
             <id>sonatype-snapshots</id>
