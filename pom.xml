@@ -9,7 +9,7 @@
     <artifactId>swagger-codegen-project</artifactId>
     <packaging>pom</packaging>
     <name>swagger-codegen-project</name>
-    <version>2.2.3-eft</version>
+    <version>2.2.3-eft-SNAPSHOT</version>
     <url>https://github.com/swagger-api/swagger-codegen</url>
     <scm>
         <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
@@ -901,6 +901,16 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <distributionManagement>
+        <repository>
+            <id>friends-releases</id>
+            <url>http://10.11.5.160:8081/repository/friends-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>friends-snapshots</id>
+            <url>http://10.11.5.160:8081/repository/friends-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     <repositories>
         <repository>
             <id>sonatype-snapshots</id>

@@ -31,6 +31,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{/isContainer}}
   {{^isContainer}}
       /** {{#description}} {{{description}}} {{/description}} **/
+      {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
       private {{{datatypeWithEnum}}} {{name}};
   {{/isContainer}}
   {{/vars}}
