@@ -107,7 +107,7 @@ public class CodegenOperation {
      * @return true if act as Restful index method, false otherwise
      */
     public boolean isRestfulIndex() {
-        return "GET".equals(httpMethod) && "".equals(pathWithoutBaseName());
+        return "Get".equals(httpMethod) && "".equals(pathWithoutBaseName());
     }
 
     /**
@@ -116,7 +116,7 @@ public class CodegenOperation {
      * @return true if act as Restful show method, false otherwise
      */
     public boolean isRestfulShow() {
-        return "GET".equals(httpMethod) && isMemberPath();
+        return "Get".equals(httpMethod) && isMemberPath();
     }
 
     /**
@@ -125,7 +125,7 @@ public class CodegenOperation {
      * @return true if act as Restful create method, false otherwise
      */
     public boolean isRestfulCreate() {
-        return "POST".equals(httpMethod)  && "".equals(pathWithoutBaseName());
+        return "Post".equals(httpMethod)  && "".equals(pathWithoutBaseName());
     }
 
     /**
@@ -134,7 +134,7 @@ public class CodegenOperation {
      * @return true if act as Restful update method, false otherwise
      */
     public boolean isRestfulUpdate() {
-        return Arrays.asList("PUT", "PATCH").contains(httpMethod) && isMemberPath();
+        return Arrays.asList("Put", "Patch").contains(httpMethod) && isMemberPath();
     }
 
     /**
@@ -143,7 +143,7 @@ public class CodegenOperation {
      * @return true if act as Restful destroy method, false otherwise
      */
     public boolean isRestfulDestroy() {
-        return "DELETE".equals(httpMethod) && isMemberPath();
+        return "Delete".equals(httpMethod) && isMemberPath();
     }
 
     /**
