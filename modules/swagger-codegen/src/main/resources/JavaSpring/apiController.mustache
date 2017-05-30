@@ -48,7 +48,7 @@ public class {{classname}}Controller {
     }{{/isDelegate}}
 
 {{^jdk8-no-delegate}}{{#operation}}
-    @RequestMapping(value = "{{{path}}}", method = RequestMethod.{{httpMethod}})
+    @{{httpMethod}}Mapping(value = "{{{path}}}")
     public {{#async}}Callable<{{/async}}{{>returnTypes}}{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
         {{/hasMore}}{{/allParams}}{{>helperParams}}) {
         {{^isDelegate}}{{^async}}

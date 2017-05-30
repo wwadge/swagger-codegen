@@ -1,5 +1,6 @@
 package io.swagger.codegen;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
@@ -2221,7 +2222,8 @@ public class DefaultCodegen {
             }
         }
         op.bodyParam = bodyParam;
-        op.httpMethod = httpMethod.toUpperCase();
+        // Change httpMethod to CamelCase
+        op.httpMethod = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, httpMethod);
 
         // move "required" parameters in front of "optional" parameters
         if (sortParamsByRequiredFlag) {
