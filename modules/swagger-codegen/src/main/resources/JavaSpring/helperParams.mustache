@@ -1,1 +1,1 @@
-{{#isListContainer}}{{#hasParams}}, {{/hasParams}}@QuerydslPredicate(root = {{returnType}}.class) Predicate predicate, Pageable pageable, Sort sortable{{/isListContainer}}
+{{#isListContainer}}{{#hasParams}}, {{/hasParams}}@QuerydslPredicate(root = {{returnType}}.class{{#isQueryDslBinding}}, bindings = {{queryDslBindingClass}}.class{{/isQueryDslBinding}}) Predicate predicate, Pageable pageable, Sort sortable{{/isListContainer}}

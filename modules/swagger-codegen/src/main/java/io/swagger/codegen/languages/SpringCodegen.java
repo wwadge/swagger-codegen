@@ -96,15 +96,24 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         if (hasEncryptedId(parameter)){
             parameter.dataType = "EntityId";
             parameter.isEncryptedId = true;
-
-
         }
     }
 
-    public boolean hasEncryptedId(CodegenParameter parameter){
+    private boolean hasEncryptedId(CodegenParameter parameter){
         Object enc = parameter.vendorExtensions.get("x-encrypted-id");
         return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
+
+    private String getQueryDslBinding(CodegenOperation operation){
+        Object enc = operation.vendorExtensions.get("x-querydsl-binding");
+
+        if (enc != null) {
+            operation.isQueryDslBinding = true;
+            return enc.toString();
+        }
+        return null;
+    }
+
     @Override
     public String getName() {
         return "spring";
@@ -435,11 +444,11 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                     }
                 }
 
-
-
                 if(implicitHeaders){
                     removeHeadersFromAllParams(operation.allParams);
                 }
+
+                operation.queryDslBindingClass = getQueryDslBinding(operation);
             }
         }
 

@@ -16,9 +16,9 @@ public class CodegenOperation {
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful;
+            isRestful, isQueryDslBinding;
     public String path, operationId, returnType, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator;
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, queryDslBindingClass;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
@@ -220,6 +220,10 @@ public class CodegenOperation {
             return false;
         if (isResponseFile != that.isResponseFile)
             return false;
+        if (isQueryDslBinding != that.isQueryDslBinding)
+            return false;
+        if (queryDslBindingClass != null ? !queryDslBindingClass.equals(that.queryDslBindingClass) : that.queryDslBindingClass != null)
+            return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
         if (operationId != null ? !operationId.equals(that.operationId) : that.operationId != null)
@@ -304,6 +308,8 @@ public class CodegenOperation {
         result = 31 * result + (isResponseBinary ? 13:31);
         result = 31 * result + (isResponseFile ? 13:31);
         result = 31 * result + (hasReference ? 13:31);
+        result = 31 * result + (isQueryDslBinding ? 13:31);
+        result = 31 * result + (queryDslBindingClass != null ? queryDslBindingClass.hashCode() : 0);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
         result = 31 * result + (returnType != null ? returnType.hashCode() : 0);

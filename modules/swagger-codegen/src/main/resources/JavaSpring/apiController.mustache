@@ -31,10 +31,10 @@ import java.util.concurrent.Callable;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-import com.friends.transactionhandler.util.EntityId;
-import org.springframework.beans.factory.annotation.Autowired;
-
 {{/useBeanValidation}}
+import org.springframework.beans.factory.annotation.Autowired;
+import com.friends.transactionhandler.util.EntityId;
+import com.friends.transactionhandler.util.Binder;
 
 @RestController
 {{#operations}}
