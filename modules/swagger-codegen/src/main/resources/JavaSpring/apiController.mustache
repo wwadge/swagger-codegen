@@ -6,6 +6,7 @@ package {{package}};
 
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 {{/jdk8-no-delegate}}
 import org.springframework.stereotype.Controller;
 {{^jdk8-no-delegate}}
@@ -33,7 +34,6 @@ import javax.validation.Valid;
 {{/useBeanValidation}}
 import org.springframework.beans.factory.annotation.Autowired;
 {{#isTransactionHandler}}
-import org.springframework.http.ResponseEntity;
 import com.friends.transactionhandler.util.EntityId;
 {{/isTransactionHandler}}
 
