@@ -33,7 +33,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 {{/useBeanValidation}}
 import org.springframework.beans.factory.annotation.Autowired;
+{{#isTransactionHandler}}
 import com.friends.transactionhandler.util.EntityId;
+{{/isTransactionHandler}}
 
 @RestController
 {{#operations}}
