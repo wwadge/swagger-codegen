@@ -13,7 +13,9 @@ import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+{{#isTransactionHandler}}
 import com.friends.transactionhandler.util.EntityId;
+{{/isTransactionHandler}}
 import java.util.*;
 {{#async}}
 import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
