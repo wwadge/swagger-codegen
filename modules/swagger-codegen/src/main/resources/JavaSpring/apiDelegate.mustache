@@ -36,7 +36,7 @@ public interface {{classname}}Delegate {
      */
     {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}{{>returnTypes}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}MultipartFile{{/isFile}} {{paramName}}{{#hasMore}},
         {{/hasMore}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}Predicate predicate, Pageable pageable, Sort sortable{{/isListContainer}}){{#jdk8}} {
-        return {{#async}}CompletableFuture.completedFuture({{/async}}{{>randomReturnTypes}}{{#async}}){{/async}};
+        {{#isRestfulCreateShow}}return {{/isRestfulCreateShow}}{{#async}}CompletableFuture.completedFuture({{/async}}{{#isRestfulCreateShow}}{{>randomReturnTypes}}{{#async}}){{/async}};{{/isRestfulCreateShow}}
     }{{/jdk8}}
 
 {{/operation}}

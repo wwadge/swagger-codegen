@@ -60,7 +60,7 @@ public class {{classname}}Controller {
                 return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
             }
         };{{/async}}{{/isDelegate}}{{#isDelegate}}
-        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}predicate, pageable, sortable{{/isListContainer}});{{/isDelegate}}
+        {{#isRestfulCreateShow}}return {{/isRestfulCreateShow}}delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}predicate, pageable, sortable{{/isListContainer}});{{/isDelegate}}
     }
 {{/operation}}{{/jdk8-no-delegate}}
 }

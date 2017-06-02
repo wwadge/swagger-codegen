@@ -2228,6 +2228,7 @@ public class DefaultCodegen {
         op.bodyParam = bodyParam;
         // Change httpMethod to CamelCase
         op.httpMethod = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, httpMethod);
+        op.isRestfulCreateShow = op.isRestfulCreateShow();
 
         // move "required" parameters in front of "optional" parameters
         if (sortParamsByRequiredFlag) {

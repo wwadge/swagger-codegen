@@ -420,7 +420,12 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                 }
 
                 if (operation.returnType == null) {
-                    operation.returnType = "Void";
+                    if (operation.isRestfulCreate()) {
+                        operation.returnType = "Void";
+                    }
+                    else {
+                        operation.returnType = "void";
+                    }
                 } else if (operation.returnType.startsWith("List")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");

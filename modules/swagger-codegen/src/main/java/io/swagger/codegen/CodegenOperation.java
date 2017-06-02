@@ -16,7 +16,7 @@ public class CodegenOperation {
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isQueryDslBinding;
+            isRestful, isQueryDslBinding, isRestfulCreateShow;
     public String path, operationId, returnType, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, queryDslBindingClass;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
@@ -155,6 +155,10 @@ public class CodegenOperation {
         return isRestfulIndex() || isRestfulShow() || isRestfulCreate() || isRestfulUpdate() || isRestfulDestroy();
     }
 
+    public boolean isRestfulCreateShow() {
+        return "Post".equals(httpMethod) || "Get".equals(httpMethod);
+    }
+
     /**
      * Get the substring except baseName from path
      *
@@ -221,6 +225,8 @@ public class CodegenOperation {
         if (isResponseFile != that.isResponseFile)
             return false;
         if (isQueryDslBinding != that.isQueryDslBinding)
+            return false;
+        if (isRestfulCreateShow != that.isRestfulCreateShow)
             return false;
         if (queryDslBindingClass != null ? !queryDslBindingClass.equals(that.queryDslBindingClass) : that.queryDslBindingClass != null)
             return false;
@@ -309,6 +315,7 @@ public class CodegenOperation {
         result = 31 * result + (isResponseFile ? 13:31);
         result = 31 * result + (hasReference ? 13:31);
         result = 31 * result + (isQueryDslBinding ? 13:31);
+        result = 31 * result + (isRestfulCreateShow ? 13:31);
         result = 31 * result + (queryDslBindingClass != null ? queryDslBindingClass.hashCode() : 0);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
