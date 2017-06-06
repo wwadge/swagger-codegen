@@ -2,4 +2,5 @@
 
     @NotNull{{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
     @Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{#isNotContainer}}{{^isPrimitiveType}}
-    @Valid{{/isPrimitiveType}}{{/isNotContainer}}{{>beanValidationCore}}
+    @Valid{{/isPrimitiveType}}{{/isNotContainer}}{{>beanValidationCore}}{{#isCurrencyCode}}
+    @ValidCurrencyCode(message = "invalid currency code provided for field: {{name}}"){{/isCurrencyCode}}

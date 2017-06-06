@@ -38,7 +38,7 @@ public class CodegenProperty implements Cloneable {
     public boolean exclusiveMaximum;
     public boolean hasMore, required, secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next properyt is not readonly
-    public boolean isPrimitiveType, isContainer, isNotContainer;
+    public boolean isPrimitiveType, isContainer, isNotContainer, isCurrencyCode;
     public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
@@ -113,6 +113,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isFloat ? 13:31));
         result = prime * result + ((isDouble  ? 13:31));
         result = prime * result + ((isByteArray  ? 13:31));
+        result = prime * result + (isCurrencyCode ? 13:31);
         result = prime * result + ((isBinary  ? 13:31));
         result = prime * result + ((isFile  ? 13:31));
         result = prime * result + ((isBoolean  ? 13:31));
@@ -212,6 +213,8 @@ public class CodegenProperty implements Cloneable {
         if (this.required != other.required) {
             return false;
         }
+        if (isCurrencyCode != other.isCurrencyCode)
+            return false;
         if (this.secondaryParam != other.secondaryParam) {
             return false;
         }
@@ -325,5 +328,8 @@ public class CodegenProperty implements Cloneable {
         }
     }
 
-
+    public boolean hasCurrencyCode(){
+        Object enc = vendorExtensions.get("x-currency-code");
+        return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
+    }
 }
