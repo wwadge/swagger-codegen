@@ -422,30 +422,34 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                 if (operation.returnType == null) {
                     if (operation.isRestfulCreate()) {
                         operation.returnType = "Void";
+                        operation.isReturnRequired = true;
                     }
                     else {
                         operation.returnType = "void";
                     }
-                } else if (operation.returnType.startsWith("List")) {
-                    String rt = operation.returnType;
-                    int end = rt.lastIndexOf(">");
-                    if (end > 0) {
-                        operation.returnType = rt.substring("List<".length(), end).trim();
-                        operation.returnContainer = "List";
-                    }
-                } else if (operation.returnType.startsWith("Map")) {
-                    String rt = operation.returnType;
-                    int end = rt.lastIndexOf(">");
-                    if (end > 0) {
-                        operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
-                        operation.returnContainer = "Map";
-                    }
-                } else if (operation.returnType.startsWith("Set")) {
-                    String rt = operation.returnType;
-                    int end = rt.lastIndexOf(">");
-                    if (end > 0) {
-                        operation.returnType = rt.substring("Set<".length(), end).trim();
-                        operation.returnContainer = "Set";
+                } else {
+                    operation.isReturnRequired = true;
+                    if (operation.returnType.startsWith("List")) {
+                        String rt = operation.returnType;
+                        int end = rt.lastIndexOf(">");
+                        if (end > 0) {
+                            operation.returnType = rt.substring("List<".length(), end).trim();
+                            operation.returnContainer = "List";
+                        }
+                    } else if (operation.returnType.startsWith("Map")) {
+                        String rt = operation.returnType;
+                        int end = rt.lastIndexOf(">");
+                        if (end > 0) {
+                            operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
+                            operation.returnContainer = "Map";
+                        }
+                    } else if (operation.returnType.startsWith("Set")) {
+                        String rt = operation.returnType;
+                        int end = rt.lastIndexOf(">");
+                        if (end > 0) {
+                            operation.returnType = rt.substring("Set<".length(), end).trim();
+                            operation.returnContainer = "Set";
+                        }
                     }
                 }
 

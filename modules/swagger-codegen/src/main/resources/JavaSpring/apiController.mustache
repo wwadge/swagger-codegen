@@ -61,7 +61,7 @@ public class {{classname}}Controller {
                 return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
             }
         };{{/async}}{{/isDelegate}}{{#isDelegate}}
-        {{#isRestfulCreateShow}}return {{/isRestfulCreateShow}}delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}predicate, pageable, sortable, principal{{/isListContainer}}{{^isListContainer}}{{#hasParams}}, {{/hasParams}}principal{{/isListContainer}});{{/isDelegate}}
+        {{#isReturnRequired}}return {{/isReturnRequired}}delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}predicate, pageable, sortable, principal{{/isListContainer}}{{^isListContainer}}{{#hasParams}}, {{/hasParams}}principal{{/isListContainer}});{{/isDelegate}}
     }
 {{/operation}}{{/jdk8-no-delegate}}
 }
