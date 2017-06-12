@@ -18,7 +18,9 @@ public class CodegenOperation {
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isQueryDslBinding, isReturnRequired;
     public String path, operationId, returnType, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, queryDslBindingClass;
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, queryDslBindingClass,
+            queryDslPredicateRootClass;
+    public boolean isOverrideQueryDslPredicateRootClass = true;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
@@ -222,9 +224,13 @@ public class CodegenOperation {
             return false;
         if (isQueryDslBinding != that.isQueryDslBinding)
             return false;
+        if (isOverrideQueryDslPredicateRootClass != that.isOverrideQueryDslPredicateRootClass)
+            return false;
         if (isReturnRequired != that.isReturnRequired)
             return false;
         if (queryDslBindingClass != null ? !queryDslBindingClass.equals(that.queryDslBindingClass) : that.queryDslBindingClass != null)
+            return false;
+        if (queryDslPredicateRootClass != null ? !queryDslPredicateRootClass.equals(that.queryDslPredicateRootClass) : that.queryDslPredicateRootClass != null)
             return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
@@ -311,8 +317,10 @@ public class CodegenOperation {
         result = 31 * result + (isResponseFile ? 13:31);
         result = 31 * result + (hasReference ? 13:31);
         result = 31 * result + (isQueryDslBinding ? 13:31);
+        result = 31 * result + (isOverrideQueryDslPredicateRootClass ? 13:31);
         result = 31 * result + (isReturnRequired ? 13:31);
         result = 31 * result + (queryDslBindingClass != null ? queryDslBindingClass.hashCode() : 0);
+        result = 31 * result + (queryDslPredicateRootClass != null ? queryDslPredicateRootClass.hashCode() : 0);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
         result = 31 * result + (returnType != null ? returnType.hashCode() : 0);

@@ -114,6 +114,16 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         return null;
     }
 
+    private String getQueryDslPredicateRootClass(CodegenOperation operation){
+        Object enc = operation.vendorExtensions.get("x-querydsl-predicate-root-class");
+
+        if (enc != null) {
+            operation.isOverrideQueryDslPredicateRootClass = false;
+            return enc.toString();
+        }
+        return null;
+    }
+
     @Override
     public String getName() {
         return "spring";
@@ -458,6 +468,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                 }
 
                 operation.queryDslBindingClass = getQueryDslBinding(operation);
+                operation.queryDslPredicateRootClass = getQueryDslPredicateRootClass(operation);
             }
         }
 
