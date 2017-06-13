@@ -27,7 +27,7 @@ public class {{classname}}{{#parent}}extends {{{parent}}}{{/parent}}{{#serializa
   @SerializedName("{{baseName}}")
   {{/gson}}
   {{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}}{{/required}}{{^required}}{{/required}};
+    private {{{datatypeWithEnum}}} {{name}}{{#required}}{{/required}}{{^required}}{{/required}};
   {{/isContainer}}
   {{^isContainer}}
     /** {{#description}} {{{description}}} {{/description}} **/{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
