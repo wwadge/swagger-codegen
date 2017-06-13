@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
 
 import com.querydsl.core.types.Predicate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -38,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.friends.commons.entity.EntityId;
 {{/isTransactionHandler}}
 
+@Validated
 @RestController
 {{#operations}}
 public class {{classname}}Controller {
