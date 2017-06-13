@@ -872,6 +872,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (parameter.toIgnore()) {
                     paramsToRemove.add(parameter);
                 }
+                parameter.isCurrencyCode = parameter.hasCurrencyCode();
+                if (parameter.isCurrencyCode) {
+                    op.imports.add("ValidCurrencyCode");
+                }
             }
 
             op.getAllParams().removeAll(paramsToRemove);

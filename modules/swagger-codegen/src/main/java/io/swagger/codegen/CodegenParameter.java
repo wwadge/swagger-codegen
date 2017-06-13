@@ -15,7 +15,7 @@ public class CodegenParameter {
     public String example; // example value (x-example)
     public String jsonSchema;
     public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isEncryptedId;
-    public boolean isListContainer, isMapContainer;
+    public boolean isListContainer, isMapContainer, isCurrencyCode;
     public boolean isFile, notFile;
     public boolean isEnum;
     public List<String> _enum;
@@ -118,6 +118,7 @@ public class CodegenParameter {
         output.example = this.example;
         output.isEnum = this.isEnum;
         output.isEncryptedId = this.isEncryptedId;
+        output.isCurrencyCode = this.isCurrencyCode;
         output.toIgnore = this.toIgnore;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
@@ -212,6 +213,8 @@ public class CodegenParameter {
         if (isString != that.isString)
             return false;
         if (isEncryptedId != that.isEncryptedId)
+            return false;
+        if (isCurrencyCode != that.isCurrencyCode)
             return false;
         if (toIgnore != that.toIgnore)
             return false;
@@ -315,6 +318,7 @@ public class CodegenParameter {
         result = 31 * result + (isDateTime ? 13:31);
         result = 31 * result + (isListContainer ? 13:31);
         result = 31 * result + (isEncryptedId ? 13:31);
+        result = 31 * result + (isCurrencyCode ? 13:31);
         result = 31 * result + (toIgnore ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);
@@ -342,6 +346,11 @@ public class CodegenParameter {
 
     public boolean toIgnore(){
         Object enc = vendorExtensions.get("x-ignore-param");
+        return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
+    }
+
+    public boolean hasCurrencyCode(){
+        Object enc = vendorExtensions.get("x-currency-code");
         return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
 }
