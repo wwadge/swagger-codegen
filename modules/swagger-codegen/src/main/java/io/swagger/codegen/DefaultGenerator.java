@@ -3,8 +3,8 @@ package io.swagger.codegen;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.codegen.ignore.CodegenIgnoreProcessor;
-import io.swagger.codegen.utils.ImplementationVersion;
 import io.swagger.codegen.languages.AbstractJavaCodegen;
+import io.swagger.codegen.utils.ImplementationVersion;
 import io.swagger.models.*;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
@@ -12,14 +12,13 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.util.Json;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
@@ -867,6 +866,17 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Set<String> opIds = new HashSet<String>();
         int counter = 0;
         for (CodegenOperation op : ops) {
+
+            List<CodegenParameter> paramsToRemove = new ArrayList<>();
+            for (CodegenParameter parameter : op.getAllParams()) {
+                if (parameter.toIgnore()) {
+                    paramsToRemove.add(parameter);
+                }
+            }
+
+            op.getAllParams().removeAll(paramsToRemove);
+            op.hasParams = !op.getAllParams().isEmpty();
+
             String opId = op.nickname;
             if (opIds.contains(opId)) {
                 counter++;

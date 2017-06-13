@@ -40,6 +40,10 @@ public class CodegenOperation {
     public String operationIdLowerCase; // for mardown documentation
     public String operationIdCamelCase; // for class names
 
+    public List<CodegenParameter> getAllParams() {
+        return allParams;
+    }
+
     /**
      * Check if there's at least one parameter
      *

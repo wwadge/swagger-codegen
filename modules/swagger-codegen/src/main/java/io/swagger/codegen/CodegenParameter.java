@@ -8,7 +8,7 @@ import java.util.List;
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType;
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType, toIgnore;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
           collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
 
@@ -118,6 +118,7 @@ public class CodegenParameter {
         output.example = this.example;
         output.isEnum = this.isEnum;
         output.isEncryptedId = this.isEncryptedId;
+        output.toIgnore = this.toIgnore;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
         }
@@ -211,6 +212,8 @@ public class CodegenParameter {
         if (isString != that.isString)
             return false;
         if (isEncryptedId != that.isEncryptedId)
+            return false;
+        if (toIgnore != that.toIgnore)
             return false;
         if (isInteger != that.isInteger)
             return false;
@@ -312,6 +315,7 @@ public class CodegenParameter {
         result = 31 * result + (isDateTime ? 13:31);
         result = 31 * result + (isListContainer ? 13:31);
         result = 31 * result + (isEncryptedId ? 13:31);
+        result = 31 * result + (toIgnore ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);
         result = 31 * result + (notFile ? 13:31);
@@ -334,6 +338,11 @@ public class CodegenParameter {
         result = 31 * result + (uniqueItems ? 13:31);
         result = 31 * result + (multipleOf != null ? multipleOf.hashCode() : 0);
         return result;
+    }
+
+    public boolean toIgnore(){
+        Object enc = vendorExtensions.get("x-ignore-param");
+        return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
 }
 
