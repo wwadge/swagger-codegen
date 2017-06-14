@@ -315,6 +315,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
         importMapping.put("ValidCurrencyCode", "com.friends.commons.validations.ValidCurrencyCode");
+        importMapping.put("EntityId", "com.friends.commons.entity.EntityId");
 
         // imports for pojos
 //        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");

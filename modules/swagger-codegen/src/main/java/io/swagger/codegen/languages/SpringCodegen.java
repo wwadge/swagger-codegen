@@ -94,7 +94,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
     public void postProcessParameter(CodegenParameter parameter) {
 
         if (hasEncryptedId(parameter)){
-            parameter.dataType = "com.friends.commons.entity.EntityId";
+            parameter.dataType = "EntityId";
             parameter.isEncryptedId = true;
         }
     }

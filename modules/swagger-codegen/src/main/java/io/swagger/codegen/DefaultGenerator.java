@@ -876,6 +876,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (parameter.isCurrencyCode) {
                     op.imports.add("ValidCurrencyCode");
                 }
+                if (parameter.isEncryptedId) {
+                    op.imports.add("EntityId");
+                }
             }
 
             op.getAllParams().removeAll(paramsToRemove);
