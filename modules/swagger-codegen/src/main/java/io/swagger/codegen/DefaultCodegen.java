@@ -135,9 +135,6 @@ public class DefaultCodegen {
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             String projectPackage = (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
             this.setModelPackage(projectPackage);
-            if (projectPackage.contains("transactionhandler")) {
-                additionalProperties.put("isTransactionHandler", true);
-            }
         }
 
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
