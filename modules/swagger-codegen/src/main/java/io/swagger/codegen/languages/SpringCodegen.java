@@ -117,11 +117,40 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
     private String getQueryDslPredicateRootClass(CodegenOperation operation){
         Object enc = operation.vendorExtensions.get("x-querydsl-predicate-root-class");
 
-        if (enc != null) {
-            operation.isOverrideQueryDslPredicateRootClass = false;
+        // default would be the return type class.
+        if (enc == null) {
+            return operation.returnType;
+        }
+        else {
             return enc.toString();
         }
-        return null;
+    }
+
+    private void setPayloadClassAttributes(CodegenOperation operation){
+        Object enc = operation.vendorExtensions.get("x-payload-class");
+
+        // default is the List class.
+        if (enc == null) {
+            operation.payloadClassCollector = "java.util.stream.Collectors.toList()";
+            operation.payloadClass = "java.util.List";
+            operation.payloadClassCasting = "(" + operation.payloadClass + ")";
+        }
+        else {
+            String clazz = enc.toString();
+            operation.payloadClass = clazz;
+            if (clazz.contains("Set")) {
+                operation.payloadClassCollector = "java.util.stream.Collectors.toSet()";
+                operation.payloadClassCasting = "(" + operation.payloadClass + ")";
+            }
+            else if (clazz.contains("Page")) {
+                operation.payloadClassCollector = "java.util.stream.Collectors.toList())";
+                operation.payloadClassCasting = "new org.springframework.data.domain.PageImpl((java.util.List)";
+            }
+            else {
+                operation.payloadClassCollector = "java.util.stream.Collectors.toMap()";
+                operation.payloadClassCasting = "(" + operation.payloadClass + ")";
+            }
+        }
     }
 
     @Override
@@ -469,6 +498,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
 
                 operation.queryDslBindingClass = getQueryDslBinding(operation);
                 operation.queryDslPredicateRootClass = getQueryDslPredicateRootClass(operation);
+                setPayloadClassAttributes(operation);
             }
         }
 
