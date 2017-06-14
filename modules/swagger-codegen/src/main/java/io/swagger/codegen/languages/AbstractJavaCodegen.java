@@ -316,6 +316,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
         importMapping.put("ValidCurrencyCode", "com.friends.commons.validations.ValidCurrencyCode");
         importMapping.put("EntityId", "com.friends.commons.entity.EntityId");
+        importMapping.put("Page", "org.springframework.data.domain.Page");
+        importMapping.put("PageImpl", "org.springframework.data.domain.PageImpl");
+        importMapping.put("Collectors", "java.util.stream.Collectors");
+        importMapping.put("QueryDslBinder", "com.friends.commons.utils.QueryDslBinder");
 
         // imports for pojos
 //        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");

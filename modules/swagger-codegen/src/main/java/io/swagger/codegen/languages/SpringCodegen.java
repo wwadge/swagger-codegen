@@ -104,16 +104,6 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
 
-    private String getQueryDslBinding(CodegenOperation operation){
-        Object enc = operation.vendorExtensions.get("x-querydsl-binding");
-
-        if (enc != null) {
-            operation.isQueryDslBinding = true;
-            return enc.toString();
-        }
-        return null;
-    }
-
     private String getQueryDslPredicateRootClass(CodegenOperation operation){
         Object enc = operation.vendorExtensions.get("x-querydsl-predicate-root-class");
 
@@ -123,33 +113,6 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         }
         else {
             return enc.toString();
-        }
-    }
-
-    private void setPayloadClassAttributes(CodegenOperation operation){
-        Object enc = operation.vendorExtensions.get("x-payload-class");
-
-        // default is the List class.
-        if (enc == null) {
-            operation.payloadClassCollector = "java.util.stream.Collectors.toList()";
-            operation.payloadClass = "java.util.List";
-            operation.payloadClassCasting = "(" + operation.payloadClass + ")";
-        }
-        else {
-            String clazz = enc.toString();
-            operation.payloadClass = clazz;
-            if (clazz.contains("Set")) {
-                operation.payloadClassCollector = "java.util.stream.Collectors.toSet()";
-                operation.payloadClassCasting = "(" + operation.payloadClass + ")";
-            }
-            else if (clazz.contains("Page")) {
-                operation.payloadClassCollector = "java.util.stream.Collectors.toList())";
-                operation.payloadClassCasting = "new org.springframework.data.domain.PageImpl((java.util.List)";
-            }
-            else {
-                operation.payloadClassCollector = "java.util.stream.Collectors.toMap()";
-                operation.payloadClassCasting = "(" + operation.payloadClass + ")";
-            }
         }
     }
 
@@ -496,9 +459,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                     removeHeadersFromAllParams(operation.allParams);
                 }
 
-                operation.queryDslBindingClass = getQueryDslBinding(operation);
                 operation.queryDslPredicateRootClass = getQueryDslPredicateRootClass(operation);
-                setPayloadClassAttributes(operation);
             }
         }
 

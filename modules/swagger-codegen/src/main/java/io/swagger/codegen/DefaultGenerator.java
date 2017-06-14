@@ -855,6 +855,47 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return parameter.getName() + ":" + parameter.getIn();
     }
 
+    private void setPayloadClassAttributes(CodegenOperation operation){
+        Object enc = operation.vendorExtensions.get("x-payload-class");
+
+        // default is the List class.
+        operation.imports.add("Collectors");
+        if (enc == null) {
+            operation.payloadClassCollector = "Collectors.toList()";
+            operation.payloadClass = "List";
+            operation.payloadClassCasting = "(" + operation.payloadClass + ")";
+        }
+        else {
+            String clazz = enc.toString();
+            operation.payloadClass = clazz;
+            if ("Set".equals(clazz)) {
+                operation.payloadClassCollector = "Collectors.toSet()";
+                operation.payloadClassCasting = "(" + operation.payloadClass + ")";
+            }
+            else if ("Page".equals(clazz)) {
+                operation.imports.add("Page");
+                operation.imports.add("PageImpl");
+                operation.payloadClassCollector = "Collectors.toList())";
+                operation.payloadClassCasting = "new PageImpl((List)";
+            }
+            else {
+                operation.payloadClassCollector = "Collectors.toMap()";
+                operation.payloadClassCasting = "(" + operation.payloadClass + ")";
+            }
+        }
+    }
+
+    private String getQueryDslBinding(CodegenOperation operation){
+        Object enc = operation.vendorExtensions.get("x-querydsl-binding");
+
+        if (enc != null) {
+            operation.isQueryDslBinding = true;
+            String clazz = enc.toString();
+            operation.imports.add(clazz);
+            return clazz;
+        }
+        return null;
+    }
 
     private Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
         Map<String, Object> operations = new HashMap<String, Object>();
@@ -879,6 +920,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (parameter.isEncryptedId) {
                     op.imports.add("EntityId");
                 }
+                setPayloadClassAttributes(op);
+                op.queryDslBindingClass = getQueryDslBinding(op);
             }
 
             op.getAllParams().removeAll(paramsToRemove);
