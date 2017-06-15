@@ -2,7 +2,9 @@
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */
 @QueryEntity
+@Builder
 @Data
+@NoArgsConstructor
 public class {{classname}}{{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
