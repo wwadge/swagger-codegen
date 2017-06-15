@@ -920,12 +920,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (parameter.isEncryptedId) {
                     op.imports.add("EntityId");
                 }
-                setPayloadClassAttributes(op);
-                op.queryDslBindingClass = getQueryDslBinding(op);
             }
 
             op.getAllParams().removeAll(paramsToRemove);
             op.hasParams = !op.getAllParams().isEmpty();
+
+            setPayloadClassAttributes(op);
+            op.queryDslBindingClass = getQueryDslBinding(op);
 
             String opId = op.nickname;
             if (opIds.contains(opId)) {
