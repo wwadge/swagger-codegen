@@ -1,13 +1,8 @@
 package io.swagger.codegen;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Objects;
-
 import io.swagger.models.ExternalDocs;
+
+import java.util.*;
 
 
 public class CodegenModel {
@@ -25,7 +20,9 @@ public class CodegenModel {
     public String discriminator;
     public String defaultValue;
     public String arrayModelType;
+    public String extendsClass;
     public boolean isAlias; // Is this effectively an alias of another simple type
+    public boolean isInterface, isGetterSetter;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
@@ -126,6 +123,10 @@ public class CodegenModel {
             return false;
         if (isEnum != that.isEnum)
             return false;
+        if (isInterface != that.isInterface)
+            return false;
+        if (isGetterSetter != that.isGetterSetter)
+            return false;
         if (externalDocs != null ? !externalDocs.equals(that.externalDocs) : that.externalDocs != null)
             return false;
         if (!Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly))
@@ -169,11 +170,28 @@ public class CodegenModel {
         result = 31 * result + (hasMoreModels ? 13:31);
         result = 31 * result + (hasEnums ? 13:31);
         result = 31 * result + (isEnum ? 13:31);
+        result = 31 * result + (isInterface ? 13:31);
+        result = 31 * result + (isGetterSetter ? 13:31);
         result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
         result = 31 * result + Objects.hash(hasChildren);
         result = 31 * result + Objects.hash(parentVars);
         return result;
+    }
+
+    public void setInterface(){
+        Object enc = vendorExtensions.get("x-interface-type");
+        isInterface = (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
+    }
+
+    public void setGetterSetter(){
+        Object enc = vendorExtensions.get("x-getter-setter");
+        isGetterSetter = (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
+    }
+
+    public void setExtendsClass(){
+        Object enc = vendorExtensions.get("x-extends-class");
+        extendsClass = enc == null ? null : enc.toString();
     }
 }
