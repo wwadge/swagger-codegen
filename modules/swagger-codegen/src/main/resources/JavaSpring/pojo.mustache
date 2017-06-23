@@ -1,12 +1,12 @@
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */
-{{#isClass}}
+{{^isInterface}}
 @QueryEntity
 @Builder
 @Data
 @NoArgsConstructor @AllArgsConstructor
-{{/isClass}}
+{{/isInterface}}
 public {{#isInterface}}interface{{/isInterface}}{{^isInterface}}class{{/isInterface}} {{classname}}{{#extendsClass}}<T extends {{extendsClass}}>{{/extendsClass}}{{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
