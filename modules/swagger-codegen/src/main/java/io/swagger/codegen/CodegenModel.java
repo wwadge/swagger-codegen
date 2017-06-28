@@ -181,17 +181,17 @@ public class CodegenModel {
     }
 
     public void setInterface(){
-        Object enc = vendorExtensions.get("x-interface-type");
+        Object enc = vendorExtensions == null ? null : vendorExtensions.get("x-interface-type");
         isInterface = (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
 
     public void setGetterSetter(){
-        Object enc = vendorExtensions.get("x-getter-setter");
+        Object enc = vendorExtensions == null ? null : vendorExtensions.get("x-getter-setter");
         isGetterSetter = (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
 
     public void setExtendsClass(){
-        Object enc = vendorExtensions.get("x-extends-class");
+        Object enc = vendorExtensions == null ? null : vendorExtensions.get("x-extends-class");
         extendsClass = enc == null ? null : enc.toString();
     }
 }
