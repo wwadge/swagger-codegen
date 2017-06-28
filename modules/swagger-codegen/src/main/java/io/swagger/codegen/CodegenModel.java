@@ -20,7 +20,7 @@ public class CodegenModel {
     public String discriminator;
     public String defaultValue;
     public String arrayModelType;
-    public String extendsClass;
+    public String extendsClass, genericClass;
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isInterface, isGetterSetter;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
@@ -129,6 +129,10 @@ public class CodegenModel {
             return false;
         if (externalDocs != null ? !externalDocs.equals(that.externalDocs) : that.externalDocs != null)
             return false;
+        if (extendsClass != null ? !extendsClass.equals(that.extendsClass) : that.extendsClass != null)
+            return false;
+        if (genericClass != null ? !genericClass.equals(that.genericClass) : that.genericClass != null)
+            return false;
         if (!Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly))
             return false;
         if (!Objects.equals(hasChildren, that.hasChildren))
@@ -173,6 +177,8 @@ public class CodegenModel {
         result = 31 * result + (isInterface ? 13:31);
         result = 31 * result + (isGetterSetter ? 13:31);
         result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);
+        result = 31 * result + (extendsClass != null ? extendsClass.hashCode() : 0);
+        result = 31 * result + (genericClass != null ? genericClass.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
         result = 31 * result + Objects.hash(hasChildren);
@@ -180,18 +186,20 @@ public class CodegenModel {
         return result;
     }
 
-    public void setInterface(){
-        Object enc = vendorExtensions == null ? null : vendorExtensions.get("x-interface-type");
-        isInterface = (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
-    }
+    void setCustomParameters(){
+        if (vendorExtensions != null) {
+            Object enc = vendorExtensions.get("x-interface-type");
+            isInterface = (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
 
-    public void setGetterSetter(){
-        Object enc = vendorExtensions == null ? null : vendorExtensions.get("x-getter-setter");
-        isGetterSetter = (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
-    }
+            enc = vendorExtensions.get("x-getter-setter");
+            isGetterSetter = (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
 
-    public void setExtendsClass(){
-        Object enc = vendorExtensions == null ? null : vendorExtensions.get("x-extends-class");
-        extendsClass = enc == null ? null : enc.toString();
+            enc = vendorExtensions.get("x-extends-class");
+            extendsClass = enc == null ? null : enc.toString();
+
+            enc = vendorExtensions.get("x-generic-class");
+            genericClass = enc == null ? null : enc.toString();
+        }
+
     }
 }

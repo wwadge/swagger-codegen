@@ -332,9 +332,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     // Special handling of aliases only applies to Java
                     if (modelTemplate != null && modelTemplate.containsKey("model")) {
                         CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                        m.setInterface();
-                        m.setExtendsClass();
-                        m.setGetterSetter();
+                        m.setCustomParameters();
                         if (m.isAlias) {
                             continue;  // Don't create user-defined classes for aliases
                         }
