@@ -4,8 +4,9 @@
 {{^isInterface}}
 @QueryEntity
 @Builder
-@Data
-@NoArgsConstructor @AllArgsConstructor
+@Data{{#hasVars}}
+@NoArgsConstructor{{/hasVars}}
+@AllArgsConstructor
 {{/isInterface}}
 public {{#isInterface}}interface{{/isInterface}}{{^isInterface}}class{{/isInterface}} {{classname}}{{#extendsClass}} extends {{extendsClass}}{{/extendsClass}}{{#genericClass}}<{{genericClass}}>{{/genericClass}}{{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
