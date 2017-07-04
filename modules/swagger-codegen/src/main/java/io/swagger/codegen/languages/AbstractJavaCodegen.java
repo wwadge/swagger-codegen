@@ -320,6 +320,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("PageImpl", "org.springframework.data.domain.PageImpl");
         importMapping.put("Collectors", "java.util.stream.Collectors");
         importMapping.put("QueryDslBinder", "com.friends.commons.utils.QueryDslBinder");
+        importMapping.put("Country", "com.friends.commons.utils.Country");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("LocalDate", "java.time.LocalDate");
+        importMapping.put("PhoneNumber", "com.friends.commons.entity.PhoneNumber");
 
         // imports for pojos
 //        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
@@ -779,6 +783,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         property.isCurrencyCode = property.hasCurrencyCode();
+        // In case different object is required other than swagger predefined objects,
+        // pass new reference here to override the one which was set in yml file.
+        String changeReference = property.getChangeReference();
+        if (changeReference != null) {
+            property.datatype = changeReference;
+            property.datatypeWithEnum = changeReference;
+            property.baseType = changeReference;
+            model.imports.add(changeReference);
+        }
         if (property.isCurrencyCode) {
             model.imports.add("ValidCurrencyCode");
         }

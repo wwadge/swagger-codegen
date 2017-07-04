@@ -332,4 +332,9 @@ public class CodegenProperty implements Cloneable {
         Object enc = vendorExtensions.get("x-currency-code");
         return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
+
+    public String getChangeReference(){
+        Object enc = vendorExtensions.get("x-change-reference");
+        return enc == null ? null : enc.toString();
+    }
 }
