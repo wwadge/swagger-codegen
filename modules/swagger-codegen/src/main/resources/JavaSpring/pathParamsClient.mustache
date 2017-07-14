@@ -1,0 +1,2 @@
+{{#isPathParam}}{{#useBeanValidation}}{{>beanValidationPathParams}}{{/useBeanValidation}}@PathVariable(name="{{paramName}}") {{#isCurrencyCode}}
+    @ValidCurrencyCode(message = "invalid currency code provided for field: {{paramName}}"){{/isCurrencyCode}}{{{dataType}}} {{paramName}}{{/isPathParam}}

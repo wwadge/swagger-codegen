@@ -17,7 +17,7 @@ public class CodegenOperation {
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isQueryDslBinding, isReturnRequired;
-    public String path, operationId, returnType, httpMethod, returnBaseType,
+    public String path, operationId, returnType, httpMethod, httpMethodCaps, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, queryDslBindingClass,
             queryDslPredicateRootClass, payloadClass, payloadClassCollector, payloadClassCasting;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
@@ -112,7 +112,7 @@ public class CodegenOperation {
      * @return true if act as Restful index method, false otherwise
      */
     public boolean isRestfulIndex() {
-        return "Get".equals(httpMethod) && "".equals(pathWithoutBaseName());
+        return "Get".equalsIgnoreCase(httpMethod) && "".equals(pathWithoutBaseName());
     }
 
     /**
@@ -121,7 +121,7 @@ public class CodegenOperation {
      * @return true if act as Restful show method, false otherwise
      */
     public boolean isRestfulShow() {
-        return "Get".equals(httpMethod) && isMemberPath();
+        return "Get".equalsIgnoreCase(httpMethod) && isMemberPath();
     }
 
     /**
@@ -130,7 +130,7 @@ public class CodegenOperation {
      * @return true if act as Restful create method, false otherwise
      */
     public boolean isRestfulCreate() {
-        return "Post".equals(httpMethod)  && "".equals(pathWithoutBaseName());
+        return "Post".equalsIgnoreCase(httpMethod)  && "".equals(pathWithoutBaseName());
     }
 
     /**
@@ -148,7 +148,7 @@ public class CodegenOperation {
      * @return true if act as Restful destroy method, false otherwise
      */
     public boolean isRestfulDestroy() {
-        return "Delete".equals(httpMethod) && isMemberPath();
+        return "Delete".equalsIgnoreCase(httpMethod) && isMemberPath();
     }
 
     /**

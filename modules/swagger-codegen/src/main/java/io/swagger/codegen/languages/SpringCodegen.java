@@ -30,12 +30,14 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
+    public static final String CLIENT_NAME = "clientName";
 
     protected String title = "swagger-petstore";
     protected String configPackage = "com.friends.configuration";
     protected String basePackage = "com.friends";
     protected boolean interfaceOnly = false;
     protected boolean delegatePattern = false;
+    protected String clientName = null;
     protected boolean singleContentTypes = false;
     protected boolean java8 = false;
     protected boolean async = false;
@@ -72,6 +74,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers."));
+        cliOptions.add(CliOption.newBoolean(CLIENT_NAME, "If given, will generate clients instead of controllers"));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -154,6 +157,10 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.valueOf(additionalProperties.get(DELEGATE_PATTERN).toString()));
+        }
+
+        if (additionalProperties.containsKey(CLIENT_NAME)) {
+            this.setClientName((String) additionalProperties.get(CLIENT_NAME));
         }
 
         if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
@@ -259,6 +266,11 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         if (this.delegatePattern) {
             additionalProperties.put("isDelegate", "true");
             apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
+        }
+
+        if (this.clientName != null) {
+            additionalProperties.put("clientName", clientName);
+            apiTemplateFiles.put("apiClient.mustache", "Client.java");
         }
 
         if (this.java8) {
@@ -549,6 +561,8 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
     public void setInterfaceOnly(boolean interfaceOnly) { this.interfaceOnly = interfaceOnly; }
 
     public void setDelegatePattern(boolean delegatePattern) { this.delegatePattern = delegatePattern; }
+
+    public void setClientName(String clientName) { this.clientName = clientName; }
 
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;

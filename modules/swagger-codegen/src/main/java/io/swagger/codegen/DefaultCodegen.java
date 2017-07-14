@@ -2225,6 +2225,8 @@ public class DefaultCodegen {
         op.bodyParam = bodyParam;
         // Change httpMethod to CamelCase
         op.httpMethod = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, httpMethod);
+        // required for client generation since feign does not support @GetMapping, etc.
+        op.httpMethodCaps = httpMethod.toUpperCase();
 
         // move "required" parameters in front of "optional" parameters
         if (sortParamsByRequiredFlag) {

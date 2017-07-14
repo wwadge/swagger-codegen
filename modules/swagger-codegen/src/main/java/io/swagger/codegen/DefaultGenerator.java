@@ -373,6 +373,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateApis) {
             return;
         }
+        boolean generateClient = config.additionalProperties().get("clientName") != null;
         Map<String, List<CodegenOperation>> paths = processPaths(swagger.getPaths());
         Set<String> apisToGenerate = null;
         String apiNames = System.getProperty("apis");
@@ -438,10 +439,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         LOGGER.info("Skipped overwriting " + filename);
                         continue;
                     }
-
-                    File written = processTemplateToFile(operation, templateName, filename);
-                    if(written != null) {
-                        files.add(written);
+                    if (!generateClient || filename.endsWith("Client.java")) {
+                        File written = processTemplateToFile(operation, templateName, filename);
+                        if(written != null) {
+                            files.add(written);
+                        }
                     }
                 }
 
