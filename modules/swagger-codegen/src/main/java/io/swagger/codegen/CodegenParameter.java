@@ -10,12 +10,12 @@ public class CodegenParameter {
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, toIgnore;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
-          collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
+          collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, commonsValidationClass;
 
     public String example; // example value (x-example)
     public String jsonSchema;
     public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isEncryptedId;
-    public boolean isListContainer, isMapContainer, isCurrencyCode;
+    public boolean isListContainer, isMapContainer, isCommonsValidation;
     public boolean isFile, notFile;
     public boolean isEnum;
     public List<String> _enum;
@@ -88,6 +88,7 @@ public class CodegenParameter {
         output.dataType = this.dataType;
         output.datatypeWithEnum = this.datatypeWithEnum;
         output.enumName = this.enumName;
+        output.commonsValidationClass = this.commonsValidationClass;
         output.dataFormat = this.dataFormat;
         output.collectionFormat = this.collectionFormat;
         output.isCollectionFormatMulti = this.isCollectionFormatMulti;
@@ -118,7 +119,7 @@ public class CodegenParameter {
         output.example = this.example;
         output.isEnum = this.isEnum;
         output.isEncryptedId = this.isEncryptedId;
-        output.isCurrencyCode = this.isCurrencyCode;
+        output.isCommonsValidation = this.isCommonsValidation;
         output.toIgnore = this.toIgnore;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
@@ -194,6 +195,8 @@ public class CodegenParameter {
             return false;
         if (enumName != null ? !enumName.equals(that.enumName) : that.enumName != null)
             return false;
+        if (commonsValidationClass != null ? !commonsValidationClass.equals(that.commonsValidationClass) : that.commonsValidationClass != null)
+            return false;
         if (dataFormat != null ? !dataFormat.equals(that.dataFormat) : that.dataFormat != null)
             return false;
         if (collectionFormat != null ? !collectionFormat.equals(that.collectionFormat) : that.collectionFormat != null)
@@ -214,7 +217,7 @@ public class CodegenParameter {
             return false;
         if (isEncryptedId != that.isEncryptedId)
             return false;
-        if (isCurrencyCode != that.isCurrencyCode)
+        if (isCommonsValidation != that.isCommonsValidation)
             return false;
         if (toIgnore != that.toIgnore)
             return false;
@@ -298,6 +301,7 @@ public class CodegenParameter {
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
         result = 31 * result + (datatypeWithEnum != null ? datatypeWithEnum.hashCode() : 0);
         result = 31 * result + (enumName != null ? enumName.hashCode() : 0);
+        result = 31 * result + (commonsValidationClass != null ? commonsValidationClass.hashCode() : 0);
         result = 31 * result + (dataFormat != null ? dataFormat.hashCode() : 0);
         result = 31 * result + (collectionFormat != null ? collectionFormat.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
@@ -318,7 +322,7 @@ public class CodegenParameter {
         result = 31 * result + (isDateTime ? 13:31);
         result = 31 * result + (isListContainer ? 13:31);
         result = 31 * result + (isEncryptedId ? 13:31);
-        result = 31 * result + (isCurrencyCode ? 13:31);
+        result = 31 * result + (isCommonsValidation ? 13:31);
         result = 31 * result + (toIgnore ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);
@@ -349,9 +353,10 @@ public class CodegenParameter {
         return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
 
-    public boolean hasCurrencyCode(){
-        Object enc = vendorExtensions.get("x-currency-code");
-        return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
+    public String getCommonsValidation(){
+        Object enc = vendorExtensions.get("x-validation-class");
+        this.isCommonsValidation = enc != null;
+        return isCommonsValidation ?  enc.toString() : null;
     }
 }
 

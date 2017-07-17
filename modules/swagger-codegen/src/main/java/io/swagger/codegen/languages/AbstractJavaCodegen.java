@@ -314,7 +314,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
-        importMapping.put("ValidCurrencyCode", "com.friends.commons.validations.ValidCurrencyCode");
         importMapping.put("EntityId", "com.friends.commons.entity.EntityId");
         importMapping.put("Page", "org.springframework.data.domain.Page");
         importMapping.put("PageImpl", "org.springframework.data.domain.PageImpl");
@@ -780,7 +779,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        property.isCurrencyCode = property.hasCurrencyCode();
+        property.commonsValidationClass = property.getCommonsValidation();
         // In case different object is required other than swagger predefined objects,
         // pass new reference here to override the one which was set in yml file.
         String changeReference = property.getChangeReference();
@@ -790,8 +789,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             property.baseType = changeReference;
             model.imports.add(changeReference);
         }
-        if (property.isCurrencyCode) {
-            model.imports.add("ValidCurrencyCode");
+        if (property.isCommonsValidation) {
+            model.imports.add(property.commonsValidationClass);
         }
         if ("array".equals(property.containerType)) {
           model.imports.add("ArrayList");

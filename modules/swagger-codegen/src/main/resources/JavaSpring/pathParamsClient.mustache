@@ -1,2 +1,2 @@
-{{#isPathParam}}{{#useBeanValidation}}{{>beanValidationPathParams}}{{/useBeanValidation}}@PathVariable(name="{{paramName}}") {{#isCurrencyCode}}
-    @ValidCurrencyCode(message = "invalid currency code provided for field: {{paramName}}"){{/isCurrencyCode}}{{{dataType}}} {{paramName}}{{/isPathParam}}
+{{#isPathParam}}{{#useBeanValidation}}{{>beanValidationPathParams}}{{/useBeanValidation}}@PathVariable(name="{{paramName}}") {{#isCommonsValidation}}
+    @{{commonsValidationClass}}(message = "invalid data provided for field: {{paramName}}"){{/isCommonsValidation}}{{{dataType}}} {{paramName}}{{/isPathParam}}

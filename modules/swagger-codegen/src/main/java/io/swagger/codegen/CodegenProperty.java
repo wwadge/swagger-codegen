@@ -9,7 +9,7 @@ import java.util.Objects;
 public class CodegenProperty implements Cloneable {
     public String baseName, complexType, getter, setter, description, datatype,
           datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
-          baseType, containerType, title;
+          baseType, containerType, title, commonsValidationClass;
 
     /** The 'description' string without escape charcters needed by some programming languages/targets */
     public String unescapedDescription;
@@ -38,7 +38,7 @@ public class CodegenProperty implements Cloneable {
     public boolean exclusiveMaximum;
     public boolean hasMore, required, secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next properyt is not readonly
-    public boolean isPrimitiveType, isContainer, isNotContainer, isCurrencyCode;
+    public boolean isPrimitiveType, isContainer, isNotContainer, isCommonsValidation;
     public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
@@ -80,6 +80,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((defaultValueWithParam == null) ? 0 : defaultValueWithParam.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((commonsValidationClass == null) ? 0 : commonsValidationClass.hashCode());
         result = prime * result + ((example == null) ? 0 : example.hashCode());
         result = prime * result + (exclusiveMaximum ? 13:31);
         result = prime * result + (exclusiveMinimum ? 13:31);
@@ -113,7 +114,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isFloat ? 13:31));
         result = prime * result + ((isDouble  ? 13:31));
         result = prime * result + ((isByteArray  ? 13:31));
-        result = prime * result + (isCurrencyCode ? 13:31);
+        result = prime * result + (isCommonsValidation ? 13:31);
         result = prime * result + ((isBinary  ? 13:31));
         result = prime * result + ((isFile  ? 13:31));
         result = prime * result + ((isBoolean  ? 13:31));
@@ -154,6 +155,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
+            return false;
+        }
+        if ((this.commonsValidationClass == null) ? (other.commonsValidationClass != null) : !this.commonsValidationClass.equals(other.commonsValidationClass)) {
             return false;
         }
         if ((this.datatype == null) ? (other.datatype != null) : !this.datatype.equals(other.datatype)) {
@@ -213,7 +217,7 @@ public class CodegenProperty implements Cloneable {
         if (this.required != other.required) {
             return false;
         }
-        if (isCurrencyCode != other.isCurrencyCode)
+        if (isCommonsValidation != other.isCommonsValidation)
             return false;
         if (this.secondaryParam != other.secondaryParam) {
             return false;
@@ -328,9 +332,10 @@ public class CodegenProperty implements Cloneable {
         }
     }
 
-    public boolean hasCurrencyCode(){
-        Object enc = vendorExtensions.get("x-currency-code");
-        return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
+    public String getCommonsValidation(){
+        Object enc = vendorExtensions.get("x-validation-class");
+        this.isCommonsValidation = enc != null;
+        return isCommonsValidation ?  enc.toString() : null;
     }
 
     public String getChangeReference(){
