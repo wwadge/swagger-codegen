@@ -34,7 +34,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 {{#operations}}
-@FeignClient("{{clientName}}")
+@FeignClient(url = "{{clientName}}")
 public interface {{classname}}Client {
 
 {{#operation}}

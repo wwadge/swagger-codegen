@@ -130,7 +130,7 @@ public class CodegenOperation {
      * @return true if act as Restful create method, false otherwise
      */
     public boolean isRestfulCreate() {
-        return "Post".equalsIgnoreCase(httpMethod)  && "".equals(pathWithoutBaseName());
+        return "Post".equalsIgnoreCase(httpMethod);
     }
 
     /**
