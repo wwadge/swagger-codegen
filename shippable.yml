@@ -19,7 +19,7 @@ build:
   ci:
     - cd $SHIPPABLE_BUILD_DIR
     - sed -i "s/{PASSWORD}/$PASSWORD/" .m2/settings.xml
-    - mvn -q -B -s .m2/settings.xml -U clean deploy
+    - mvn -q -B -s .m2/settings.xml -U clean deploy -DskipTests
 
   notifications:
     - integrationName: friends-email
