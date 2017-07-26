@@ -8,7 +8,7 @@
 @NoArgsConstructor{{/hasVars}}
 @AllArgsConstructor
 {{/isInterface}}
-public {{#isInterface}}interface{{/isInterface}}{{^isInterface}}class{{/isInterface}} {{classname}}{{#extendsClass}} extends {{extendsClass}}{{/extendsClass}}{{#genericClass}}<{{genericClass}}>{{/genericClass}}{{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}}implements Serializable{{/serializableModel}} {
+public {{#isInterface}}interface{{/isInterface}}{{^isInterface}}class{{/isInterface}} {{classname}}{{#extendsClass}} extends {{extendsClass}}{{/extendsClass}}{{#genericClass}}<{{genericClass}}>{{/genericClass}}{{#parent}} extends {{{parent}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 
