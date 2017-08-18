@@ -269,8 +269,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         }
 
         if (this.clientName != null) {
-            additionalProperties.put("clientName", "${" + clientName + ".name}");
-            additionalProperties.put("clientUrl", "${" + clientName + ".url}");
+            additionalProperties.put("clientUrl", "${" + clientName + "}");
             apiTemplateFiles.put("apiClient.mustache", "Client.java");
         }
 

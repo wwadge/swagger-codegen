@@ -22,7 +22,6 @@ import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import java.security.Principal;
-
 import java.util.*;
 {{#async}}
     import java.util.concurrent.Callable;
@@ -34,7 +33,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 {{#operations}}
-@FeignClient(name = "{{clientName}}", url = "{{clientUrl}}")
+@FeignClient(name = "{{classVarName}}", url = "{{clientUrl}}")
 public interface {{classname}}Client {
 
 {{#operation}}
