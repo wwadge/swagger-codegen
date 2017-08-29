@@ -38,8 +38,8 @@ public interface {{classname}}Client {
 
 {{#operation}}
     @RequestMapping(value = "{{{path}}}", method = RequestMethod.{{httpMethodCaps}})
-    public {{#async}}Callable<{{/async}}{{>returnTypes}}{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParamsClient}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-    {{/hasMore}}{{/allParams}});
+    public {{#async}}Callable<{{/async}}{{>returnTypesClient}}{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParamsClient}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+    {{/hasMore}}{{/allParams}}{{>helperParamsClient}});
 
 {{/operation}}
 }
