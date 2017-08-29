@@ -358,5 +358,10 @@ public class CodegenParameter {
         this.isCommonsValidation = enc != null;
         return isCommonsValidation ?  enc.toString() : null;
     }
+
+    public String getChangeReference(){
+        Object enc = vendorExtensions.get("x-change-reference");
+        return enc == null ? null : enc.toString();
+    }
 }
 

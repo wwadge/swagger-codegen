@@ -923,6 +923,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (parameter.isEncryptedId) {
                     op.imports.add("EntityId");
                 }
+
+                String changeReference = parameter.getChangeReference();
+                if (changeReference != null) {
+                    parameter.datatypeWithEnum = changeReference;
+                    parameter.dataType = changeReference;
+                    parameter.baseType = changeReference;
+                    op.imports.add(changeReference);
+                }
             }
 
             op.getAllParams().removeAll(paramsToRemove);
