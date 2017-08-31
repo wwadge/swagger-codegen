@@ -32,13 +32,8 @@ public {{#isInterface}}interface{{/isInterface}}{{^isInterface}}class{{/isInterf
   @SerializedName("{{baseName}}")
   {{/gson}}
   {{^isGetterSetter}}
-  {{#isContainer}}
-    private {{{datatypeWithEnum}}} {{name}}{{#required}}{{/required}}{{^required}}{{/required}};
-  {{/isContainer}}
-  {{^isContainer}}
-    /** {{#description}} {{{description}}} {{/description}} **/{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
-    private {{{datatypeWithEnum}}} {{name}};
-  {{/isContainer}}
+  /** {{#description}} {{{description}}} {{/description}} **/{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
+  private {{{datatypeWithEnum}}} {{name}};
   {{/isGetterSetter}}
   {{#isGetterSetter}}
   void set{{datatypeWithEnum}}({{datatypeWithEnum}} {{name}});

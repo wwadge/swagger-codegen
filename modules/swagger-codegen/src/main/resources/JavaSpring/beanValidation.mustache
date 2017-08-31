@@ -1,6 +1,6 @@
 {{#required}}
 
-    @NotNull{{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
-    @Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{#isNotContainer}}{{^isPrimitiveType}}
-    @Valid{{/isPrimitiveType}}{{/isNotContainer}}{{>beanValidationCore}}{{#isCommonsValidation}}
-    @{{commonsValidationClass}}(message = "invalid data provided for field: {{name}}"){{/isCommonsValidation}}
+  @NotNull{{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
+  @Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{#isNotContainer}}{{^isPrimitiveType}}
+  @Valid{{/isPrimitiveType}}{{/isNotContainer}}{{>beanValidationCore}}{{#isCommonsValidation}}
+  @{{commonsValidationClass}}(message = "invalid data provided for field: {{name}}"){{/isCommonsValidation}}
