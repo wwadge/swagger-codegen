@@ -17,7 +17,7 @@ public class CodegenOperation {
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isQueryDslBinding, isReturnRequired;
-    public String path, operationId, returnType, httpMethod, httpMethodCaps, returnBaseType,
+    public String path, pathForDelegate, operationId, returnType, httpMethod, httpMethodCaps, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, queryDslBindingClass,
             queryDslPredicateRootClass, payloadClass, payloadClassCollector, payloadClassCasting;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
@@ -241,6 +241,8 @@ public class CodegenOperation {
             return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
+        if (pathForDelegate != null ? !pathForDelegate.equals(that.pathForDelegate) : that.pathForDelegate != null)
+            return false;
         if (operationId != null ? !operationId.equals(that.operationId) : that.operationId != null)
             return false;
         if (returnType != null ? !returnType.equals(that.returnType) : that.returnType != null)
@@ -331,6 +333,7 @@ public class CodegenOperation {
         result = 31 * result + (queryDslBindingClass != null ? queryDslBindingClass.hashCode() : 0);
         result = 31 * result + (queryDslPredicateRootClass != null ? queryDslPredicateRootClass.hashCode() : 0);
         result = 31 * result + (path != null ? path.hashCode() : 0);
+        result = 31 * result + (pathForDelegate != null ? pathForDelegate.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
         result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
         result = 31 * result + (httpMethod != null ? httpMethod.hashCode() : 0);
