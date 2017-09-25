@@ -39,7 +39,7 @@ public interface {{classname}}Client {
 {{#operation}}
     @RequestMapping(value = "{{{path}}}", method = RequestMethod.{{httpMethodCaps}})
     public {{#async}}Callable<{{/async}}{{>returnTypesClient}}{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParamsClient}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-    {{/hasMore}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}@RequestParam Map<String, Object> map{{/isListContainer}});
+    {{/hasMore}}{{/allParams}});
 
 {{/operation}}
 }

@@ -32,8 +32,8 @@ public interface {{classname}}Delegate {
     /**
      * @see {{classname}}#{{operationId}}
      */
-    {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}{{>returnTypes}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}MultipartFile{{/isFile}} {{paramName}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}Predicate predicate, Pageable pageable, Sort sortable, Principal principal{{/isListContainer}}{{^isListContainer}}{{#hasParams}}, {{/hasParams}}Principal principal{{/isListContainer}}){{#jdk8}} {
+    {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}{{>returnTypes}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isClientParam}}{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}MultipartFile{{/isFile}} {{paramName}}{{#hasMore}},
+        {{/hasMore}}{{/isClientParam}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}Predicate predicate, Pageable pageable, Sort sortable, Principal principal{{/isListContainer}}{{^isListContainer}}{{#hasParams}}, {{/hasParams}}Principal principal{{/isListContainer}}){{#jdk8}} {
         {{#isReturnRequired}}return {{/isReturnRequired}}{{#async}}CompletableFuture.completedFuture({{/async}}{{#isReturnRequired}}{{>randomReturnTypes}}{{#async}}){{/async}};{{/isReturnRequired}}
     }{{/jdk8}}
 

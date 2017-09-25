@@ -50,8 +50,8 @@ public class {{classname}}Controller {
 
 {{^jdk8-no-delegate}}{{#operation}}
     @{{httpMethod}}Mapping(value = "{{{path}}}")
-    public {{#async}}Callable<{{/async}}{{>returnTypes}}{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}}{{>helperParams}}) {
+    public {{#async}}Callable<{{/async}}{{>returnTypes}}{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{^isClientParam}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+        {{/hasMore}}{{/isClientParam}}{{/allParams}}{{>helperParams}}) {
         {{^isDelegate}}{{^async}}
         return new ResponseEntity<{{>returnTypes}}>();{{/async}}{{#async}}
         return new Callable<ResponseEntity<{{>returnTypes}}>>() {
@@ -60,7 +60,7 @@ public class {{classname}}Controller {
                 return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
             }
         };{{/async}}{{/isDelegate}}{{#isDelegate}}
-        {{#isReturnRequired}}return {{/isReturnRequired}}delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}predicate, pageable, sortable, principal{{/isListContainer}}{{^isListContainer}}{{#hasParams}}, {{/hasParams}}principal{{/isListContainer}});{{/isDelegate}}
+        {{#isReturnRequired}}return {{/isReturnRequired}}delegate.{{operationId}}({{#allParams}}{{^isClientParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/isClientParam}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}predicate, pageable, sortable, principal{{/isListContainer}}{{^isListContainer}}{{#hasParams}}, {{/hasParams}}principal{{/isListContainer}});{{/isDelegate}}
     }
 {{/operation}}{{/jdk8-no-delegate}}
 }
