@@ -8,7 +8,7 @@ import java.util.List;
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType, toIgnore;
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType, toIgnore, isClientParam;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
           collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, commonsValidationClass;
 
@@ -121,6 +121,7 @@ public class CodegenParameter {
         output.isEncryptedId = this.isEncryptedId;
         output.isCommonsValidation = this.isCommonsValidation;
         output.toIgnore = this.toIgnore;
+        output.isClientParam = this.isClientParam;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
         }
@@ -220,6 +221,8 @@ public class CodegenParameter {
         if (isCommonsValidation != that.isCommonsValidation)
             return false;
         if (toIgnore != that.toIgnore)
+            return false;
+        if (isClientParam != that.isClientParam)
             return false;
         if (isInteger != that.isInteger)
             return false;
@@ -324,6 +327,7 @@ public class CodegenParameter {
         result = 31 * result + (isEncryptedId ? 13:31);
         result = 31 * result + (isCommonsValidation ? 13:31);
         result = 31 * result + (toIgnore ? 13:31);
+        result = 31 * result + (isClientParam ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);
         result = 31 * result + (notFile ? 13:31);
@@ -350,6 +354,11 @@ public class CodegenParameter {
 
     public boolean toIgnore(){
         Object enc = vendorExtensions.get("x-ignore-param");
+        return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
+    }
+
+    public boolean isClientParam(){
+        Object enc = vendorExtensions.get("x-client-param");
         return (enc != null && enc.toString().equalsIgnoreCase("TRUE"));
     }
 

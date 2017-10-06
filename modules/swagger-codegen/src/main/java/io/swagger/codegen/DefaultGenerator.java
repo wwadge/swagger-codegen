@@ -911,11 +911,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         int counter = 0;
         for (CodegenOperation op : ops) {
 
+            List<CodegenParameter> noClientParams = new ArrayList<>();
             List<CodegenParameter> paramsToRemove = new ArrayList<>();
             for (CodegenParameter parameter : op.getAllParams()) {
                 if (parameter.toIgnore()) {
                     paramsToRemove.add(parameter);
                 }
+                parameter.isClientParam = parameter.isClientParam();
                 parameter.commonsValidationClass = parameter.getCommonsValidation();
                 if (parameter.isCommonsValidation) {
                     op.imports.add(parameter.commonsValidationClass);
@@ -933,8 +935,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
             }
 
+            // filter out client params so that hasParams can work correctly in controller/delegate generation.
             op.getAllParams().removeAll(paramsToRemove);
-            op.hasParams = !op.getAllParams().isEmpty();
+
+            for (CodegenParameter parameter : op.getAllParams()) {
+                if (!parameter.isClientParam) {
+                    noClientParams.add(parameter);
+                }
+            }
+
+            op.hasParams = !noClientParams.isEmpty();
 
             setPayloadClassAttributes(op);
             op.queryDslBindingClass = getQueryDslBinding(op);
