@@ -946,6 +946,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
             op.hasParams = !noClientParams.isEmpty();
 
+            // check required in case we amended the parameters list and only one parameter is left
+            // for which hasMore has to be set to false in order not to break mustache file generation.
+            if (op.getAllParams().size() == 1) {
+                op.getAllParams().get(0).hasMore = false;
+            }
+
             setPayloadClassAttributes(op);
             op.queryDslBindingClass = getQueryDslBinding(op);
 
