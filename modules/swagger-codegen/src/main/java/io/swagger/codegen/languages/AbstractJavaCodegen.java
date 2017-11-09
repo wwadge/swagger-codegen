@@ -787,7 +787,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             property.datatype = changeReference;
             property.datatypeWithEnum = changeReference;
             property.baseType = changeReference;
-            model.imports.add(changeReference);
+            // exclude import in case change reference object is of type primitive byte array.
+            if (!changeReference.equals("byte[]")) {
+                model.imports.add(changeReference);
+            }
         }
         if (property.isCommonsValidation) {
             model.imports.add(property.commonsValidationClass);
