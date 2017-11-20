@@ -101,7 +101,7 @@
                             <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
+                            <failsOnError>false</failsOnError>
                             <linkXRef>false</linkXRef>
                         </configuration>
                         <goals>
@@ -902,14 +902,14 @@
         </dependencies>
     </dependencyManagement>
     <distributionManagement>
-        <repository>
-            <id>friends-releases</id>
-            <url>http://10.11.5.160:8081/repository/friends-releases</url>
-        </repository>
         <snapshotRepository>
-            <id>friends-snapshots</id>
-            <url>http://10.11.5.160:8081/repository/friends-snapshots</url>
+            <id>codespace-snapshots</id>
+            <url>https://nexus.codespacedev.com/repository/codespace-snapshots/</url>
         </snapshotRepository>
+        <repository>
+            <id>codespace-releases</id>
+            <url>https://nexus.codespacedev.com/repository/codespace-releases/</url>
+        </repository>
     </distributionManagement>
     <repositories>
         <repository>
