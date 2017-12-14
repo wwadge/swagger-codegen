@@ -42,7 +42,7 @@ public class SpringOptionsProvider extends JavaOptionsProvider {
         options.put(SpringCodegen.USE_TAGS, USE_TAGS);
         options.put(SpringCodegen.USE_BEANVALIDATION, USE_BEANVALIDATION);
         options.put(SpringCodegen.IMPLICIT_HEADERS, IMPLICIT_HEADERS);
-
+        options.put("clientName", "clientName");
         return options;
     }
 
