@@ -952,6 +952,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 op.getAllParams().get(0).hasMore = false;
             }
 
+            if (op.getAllParams() != null && op.getAllParams().size() > 0) {
+                op.getAllParams().get(op.getAllParams().size() - 1).hasMore = false;
+            }
+
             setPayloadClassAttributes(op);
             op.queryDslBindingClass = getQueryDslBinding(op);
 
