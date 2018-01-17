@@ -115,6 +115,9 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
             return operation.returnType;
         }
         else {
+            // overriding listContainer to true irrespective if we are returning
+            // list or not in order to force codegen to generate operation with predicate, pageable and sort params.
+            operation.isListContainer = true;
             return enc.toString();
         }
     }
