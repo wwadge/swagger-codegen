@@ -318,7 +318,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("Page", "org.springframework.data.domain.Page");
         importMapping.put("PageImpl", "org.springframework.data.domain.PageImpl");
         importMapping.put("Collectors", "java.util.stream.Collectors");
-        importMapping.put("QueryDslBinder", "com.friends.commons.utils.QueryDslBinder");
+//        importMapping.put("QueryDslBinder", "QueryDslBinder");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("LocalDate", "java.time.LocalDate");
 
