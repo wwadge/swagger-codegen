@@ -1,23 +1,14 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.*;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.*;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.CodegenParameter;
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.SupportingFile;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.ObjectProperty;
-import io.swagger.models.properties.Property;
 
 public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
@@ -196,7 +187,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         for (CodegenOperation op : ops) {
             // Convert httpMethod to Angular's RequestMethod enum
             // https://angular.io/docs/ts/latest/api/http/index/RequestMethod-enum.html
-            switch (op.httpMethod) {
+            switch (op.httpMethod.toUpperCase()) {
                 case "GET":
                     op.httpMethod = "RequestMethod.Get";
                     break;
