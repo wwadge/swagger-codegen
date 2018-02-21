@@ -1,10 +1,17 @@
 package io.swagger.codegen.languages;
 
+import com.google.common.base.CaseFormat;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.codegen.*;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +39,13 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
 
         embeddedTemplateDir = templateDir = "typescript-angular2";
         modelTemplateFiles.put("model.mustache", ".ts");
-        apiTemplateFiles.put("api.mustache", ".ts");
+        apiTemplateFiles.put("effects.mustache", ".effects.ts");
         typeMapping.put("Date","Date");
         apiPackage = "api";
         modelPackage = "model";
 
+        additionalProperties.put("fnSnakeCase", new SnakeCaseLambda());
+        additionalProperties.put("fnCapitalize", new CapitalizeLambda());
 
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
@@ -69,9 +78,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
-        supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
-        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("actions.mustache",  apiPackage().replace('.', File.separatorChar), "actions.ts"));
 
         if(additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
@@ -108,11 +115,6 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
-        //Files for building our lib
-        supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
-        supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("typings.mustache", getIndexDirectory(), "typings.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
     }
 
     private String getIndexDirectory() {
@@ -189,25 +191,25 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             // https://angular.io/docs/ts/latest/api/http/index/RequestMethod-enum.html
             switch (op.httpMethod.toUpperCase()) {
                 case "GET":
-                    op.httpMethod = "RequestMethod.Get";
+                    op.httpMethod = "`GET`";
                     break;
                 case "POST":
-                    op.httpMethod = "RequestMethod.Post";
+                    op.httpMethod = "`POST`";
                     break;
                 case "PUT":
-                    op.httpMethod = "RequestMethod.Put";
+                    op.httpMethod = "`PUT`";
                     break;
                 case "DELETE":
-                    op.httpMethod = "RequestMethod.Delete";
+                    op.httpMethod = "`DELETE`";
                     break;
                 case "OPTIONS":
-                    op.httpMethod = "RequestMethod.Options";
+                    op.httpMethod = "`OPTIONS`";
                     break;
                 case "HEAD":
-                    op.httpMethod = "RequestMethod.Head";
+                    op.httpMethod = "`HEAD`";
                     break;
                 case "PATCH":
-                    op.httpMethod = "RequestMethod.Patch";
+                    op.httpMethod = "`PATCH`ą";
                     break;
                 default:
                     throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
@@ -218,6 +220,33 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         }
 
         return operations;
+    }
+
+    private static abstract class CustomLambda implements Mustache.Lambda {
+        @Override
+        public void execute(Template.Fragment frag, Writer out) throws IOException {
+            final StringWriter tempWriter = new StringWriter();
+            frag.execute(tempWriter);
+            out.write(formatFragment(tempWriter.toString()));
+        }
+
+        public abstract String formatFragment(String fragment);
+    }
+
+    private static class SnakeCaseLambda extends CustomLambda {
+
+        public SnakeCaseLambda() {}
+
+        @Override
+        public String formatFragment(String fragment) {
+            return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, fragment);
+        }
+    }
+    private static class CapitalizeLambda extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            return StringUtils.capitalize(fragment);
+        }
     }
 
     public String getNpmName() {
