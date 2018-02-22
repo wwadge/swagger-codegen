@@ -119,10 +119,10 @@ public class TypeScriptAngular2ModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "models.Children");
+        Assert.assertEquals(property1.datatype, "Models.Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "null");
-        Assert.assertEquals(property1.baseType, "models.Children");
+        Assert.assertEquals(property1.baseType, "Models.Children");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
@@ -143,8 +143,8 @@ public class TypeScriptAngular2ModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "models.Children");
-        Assert.assertEquals(property1.datatype, "Array<models.Children>");
+        Assert.assertEquals(property1.complexType, "Models.Children");
+        Assert.assertEquals(property1.datatype, "Array<Models.Children>");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
         Assert.assertFalse(property1.required);
@@ -178,7 +178,7 @@ public class TypeScriptAngular2ModelTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(cm.additionalPropertiesType, "models.Children");
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("models.Children")).size(), 1);
+        Assert.assertEquals(cm.additionalPropertiesType, "Models.Children");
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Models.Children")).size(), 1);
     }
 }

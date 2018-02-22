@@ -41,7 +41,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("effects.mustache", ".effects.ts");
         typeMapping.put("Date","Date");
-        apiPackage = "api";
+        apiPackage = "";
         modelPackage = "model";
 
         additionalProperties.put("fnSnakeCase", new SnakeCaseLambda());
@@ -53,6 +53,12 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_OPAQUE_TOKEN, "When setting this property to true, OpaqueToken is used instead of InjectionToken", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+    }
+
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        String suffix = apiTemplateFiles().get(templateName);
+        return apiFileFolder() + '/' + StringUtils.lowerCase(tag) + suffix;
     }
 
     @Override
@@ -75,7 +81,6 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
         supportingFiles.add(new SupportingFile("actions.mustache",  apiPackage().replace('.', File.separatorChar), "actions.ts"));
@@ -158,7 +163,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         }
 
         if (!isLanguagePrimitive(type) && !isLanguageGenericType(type)) {
-            type = "models." + swaggerType;
+            type = "Models." + swaggerType;
         }
         return type;
     }
@@ -191,25 +196,25 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             // https://angular.io/docs/ts/latest/api/http/index/RequestMethod-enum.html
             switch (op.httpMethod.toUpperCase()) {
                 case "GET":
-                    op.httpMethod = "`GET`";
+                    op.httpMethod = "RequestMethod.GET";
                     break;
                 case "POST":
-                    op.httpMethod = "`POST`";
+                    op.httpMethod = "RequestMethod.POST";
                     break;
                 case "PUT":
-                    op.httpMethod = "`PUT`";
+                    op.httpMethod = "RequestMethod.PUT";
                     break;
                 case "DELETE":
-                    op.httpMethod = "`DELETE`";
+                    op.httpMethod = "RequestMethod.DELETE";
                     break;
                 case "OPTIONS":
-                    op.httpMethod = "`OPTIONS`";
+                    op.httpMethod = "RequestMethod.OPTIONS";
                     break;
                 case "HEAD":
-                    op.httpMethod = "`HEAD`";
+                    op.httpMethod = "RequestMethod.HEAD";
                     break;
                 case "PATCH":
-                    op.httpMethod = "`PATCH`ą";
+                    op.httpMethod = "RequestMethod.PATCH";
                     break;
                 default:
                     throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");

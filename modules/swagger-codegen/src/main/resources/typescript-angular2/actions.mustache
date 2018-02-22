@@ -1,0 +1,35 @@
+import { ApiAction } from '@app/state/ApiAction';
+import * as Models from '../model/models';
+
+{{#apiInfo}}
+{{#apis}}
+
+{{#operations}}
+{{#operation}}
+export const {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}} = '[{{classname}}] {{nickname}} Make request';
+export const {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}}_SUCCESS = '[{{classname}}] {{nickname}} Response Success';
+export const {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}}_ERROR = '[{{classname}}] {{nickname}} Response Error';
+{{/operation}}
+{{/operations}}
+
+{{#operations}}
+{{#operation}}
+
+export class {{#fnCapitalize}}{{nickname}}{{/fnCapitalize}}Action implements ApiAction  {
+
+  type = {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}};
+  public payload: any;
+
+  /***
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}* @param {{paramName}} {{description}}
+    {{/allParams}}*/
+  constructor({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}) { this.payload = { a: 1};}
+}
+
+{{/operation}}
+{{/operations}}
+
+{{/apis}}
+{{/apiInfo}}
