@@ -108,7 +108,7 @@ public class MetaGenerator extends AbstractGenerator {
         if (!outputFolderLocation.exists()) {
             outputFolderLocation.mkdirs();
         }
-        File sourceFolder = new File(outputFolder + File.separator + "src/main/java/" + targetPackage.replace('.', File.separatorChar));
+        File sourceFolder = new File(outputFolder + File.separator + targetPackage.replace('.', File.separatorChar));
         if (!sourceFolder.exists()) {
             sourceFolder.mkdirs();
         }
@@ -122,7 +122,7 @@ public class MetaGenerator extends AbstractGenerator {
         List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("generatorClass.mustache",
-                "src/main/java/" + File.separator + targetPackage.replace('.', File.separatorChar),
+                 targetPackage.replace('.', File.separatorChar),
                 mainClass + ".java"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("api.template", "src/main/resources" + File.separator + name, "api.mustache"));

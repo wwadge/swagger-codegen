@@ -218,7 +218,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
 //                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
 //                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
 //                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
-//                supportingFiles.add(new SupportingFile("application.mustache",
+//                su pportingFiles.add(new SupportingFile("application.mustache",
 //                        ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
             }
             if (library.equals(SPRING_MVC_LIBRARY)) {

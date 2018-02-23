@@ -40,9 +40,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String scmUrl = "https://github.com/swagger-api/swagger-codegen";
     protected String licenseName = "Unlicense";
     protected String licenseUrl = "http://unlicense.org";
-    protected String projectFolder = "src" + File.separator + "main";
+    protected String projectFolder = "" ; //"src" + File.separator + "main";
     protected String projectTestFolder = "src" + File.separator + "test";
-    protected String sourceFolder = projectFolder + File.separator + "java";
+    protected String sourceFolder = ""; // projectFolder + File.separator + "java";
     protected String testFolder = projectTestFolder + File.separator + "java";
     protected String localVariablePrefix = "";
     protected boolean fullJavaUtil;

@@ -3,8 +3,7 @@
  */
 {{^isInterface}}
 @QueryEntity
-@Builder
-@Data{{#hasVars}}
+@Data @EqualsAndHashCode(callSuper=false){{#hasVars}}
 @NoArgsConstructor{{/hasVars}}
 @AllArgsConstructor
 {{/isInterface}}
