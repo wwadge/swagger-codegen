@@ -46,6 +46,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
 
         additionalProperties.put("fnSnakeCase", new SnakeCaseLambda());
         additionalProperties.put("fnCapitalize", new CapitalizeLambda());
+        additionalProperties.put("fnLower", new LowerLambda());
 
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
@@ -251,6 +252,13 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         @Override
         public String formatFragment(String fragment) {
             return StringUtils.capitalize(fragment);
+        }
+    }
+
+    private static class LowerLambda extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            return StringUtils.lowerCase(fragment);
         }
     }
 
