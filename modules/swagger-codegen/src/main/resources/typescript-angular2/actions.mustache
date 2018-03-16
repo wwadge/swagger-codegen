@@ -1,5 +1,5 @@
 import { ApiAction } from '@app/state/ApiAction';
-import * as Models from '../model/models';
+import * as Models from './model/models';
 
 {{#apiInfo}}
 {{#apis}}
@@ -12,24 +12,31 @@ export const {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}}_ERROR = '[{{classname}
 {{/operation}}
 {{/operations}}
 
+{{/apis}}
+{{#apis}}
 {{#operations}}
-{{#operation}}
+  {{#operation}}
 
 export class {{#fnCapitalize}}{{nickname}}{{/fnCapitalize}}Action implements ApiAction  {
 
-  type = {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}};
-  public payload: any;
+    type = {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}};
+    public params: any;
+    public httpParams: any;
 
-  /***
-    * {{summary}}
-    * {{notes}}
-    {{#allParams}}* @param {{paramName}} {{description}}
-    {{/allParams}}*/
-  constructor({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}) { this.payload = { a: 1};}
+    /***
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
+    constructor({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}} httpParams: any = {}) {
+      this.params = { {{#allParams}}{{paramName}}{{^-last}},{{/-last}} {{/allParams}}};
+      this.httpParams = httpParams;
+    }
 }
 
-{{/operation}}
+  {{/operation}}
 {{/operations}}
 
 {{/apis}}
+
 {{/apiInfo}}

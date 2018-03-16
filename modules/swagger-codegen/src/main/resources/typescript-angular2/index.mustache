@@ -1,5 +1,17 @@
-export * from './api/api';
 export * from './model/models';
-export * from './variables';
 export * from './configuration';
-export * from './api/actions'
+export * from './actions'
+
+import * as _ from 'lodash';
+import * as SchemaDefinitions from './schemas/_definitions.json';
+{{#models}}
+  {{#model}}
+import * as {{classname}} from './schemas/{{#fnLower}}{{classname}}{{/fnLower}}.json';
+  {{/model}}
+{{/models}}
+
+{{#models}}
+  {{#model}}
+export const {{classname}}Schema = _.merge( {{classname}},{{#parent}} {{{parent}}}, {{/parent}} SchemaDefinitions );
+  {{/model}}
+{{/models}}

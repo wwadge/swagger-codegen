@@ -3,13 +3,14 @@ import { Inject, Injectable, Optional }                      from '@angular/core
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 
-import * as Models from '../model/models';
-import { Configuration } from '../configuration';
+import * as Models from './model/models';
+import { Configuration } from './configuration';
 import { ApiAction } from '@app/state/ApiAction';
 
 import { Action } from '@ngrx/store';
@@ -18,6 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import * as ACTIONS from "./actions";
 import { RequestMethod } from "@api/RequestMethod";
+import { environment } from '@env/environment';
 
 {{#operations}}
 
@@ -28,21 +30,16 @@ import { RequestMethod } from "@api/RequestMethod";
 {{/description}}
 @Injectable()
 export class {{classname}}Effects {
-    protected domain = '{{{basePath}}}';
+    protected domain = environment.apiUrl;
     public headers: HttpHeaders = new HttpHeaders();
-    public configuration: Configuration = new Configuration();
 
     constructor(
       private actions$: Actions,
       private http: HttpClient,
       private toastr: ToastrService,
-      @Optional() @Inject('domain') domain: string,
       @Optional() @Inject('headers') headers: HttpHeaders
 
     ) {
-      if (domain) {
-        this.domain = domain;
-      }
       if (headers) {
         this.headers = headers;
       }
@@ -51,7 +48,8 @@ export class {{classname}}Effects {
 {{#operation}}
 
     /***
-     * Listens to {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}}) actions and acts accordingly
+     * Listens to {{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}} actions and acts accordingly
+     * {{httpMethod}} URI: {{{path}}}
      *
      * @property { Observable<Action> } {{nickname}}$
      */
@@ -67,10 +65,10 @@ export class {{classname}}Effects {
      * {{notes}}
      */
     private handle{{#fnCapitalize}}{{nickname}}{{/fnCapitalize}}( action: ApiAction ) {
-      {{#hasParams}}const { {{#allParams}}{{#required}} {{{paramName}}}, {{/required}}{{/allParams}} } = action.params;{{/hasParams}}
-      return this.http.request({{httpMethod}}, `${this.domain}{{{path}}}`{{#bodyParam}}, {{paramName}}{{/bodyParam}})
-        .map((res: Object) => (
-          { type: ACTIONS.{{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}}_SUCCESS, data: res }
+      {{#hasParams}}const { {{#allParams}}{{#required}}{{{paramName}}}{{^-last}},{{/-last}}{{/required}} {{/allParams}} } = action.params;{{/hasParams}}
+    return this.http.request({{httpMethod}}, `${this.domain}{{{path}}}`, { {{#bodyParam}}body: {{paramName}},{{/bodyParam}}{{^bodyParam}}params: action.httpParams,{{/bodyParam}} observe: 'response' })
+        .map((res: { body: any }) => (
+          { type: ACTIONS.{{#fnSnakeCase}}{{nickname}}{{/fnSnakeCase}}_SUCCESS, data: res.body, requestContext: { {{#hasParams}}{{#allParams}}{{#required}} {{{paramName}}}{{^-last}},{{/-last}} {{/required}}{{/allParams}}{{/hasParams}} } }
         ))
         .catch((e) => {
             this.toastr.error('Connection error', '{{nickname}} failed');
