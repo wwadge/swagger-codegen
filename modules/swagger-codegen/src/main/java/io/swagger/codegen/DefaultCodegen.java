@@ -1121,7 +1121,7 @@ public class DefaultCodegen {
      * @return snake-cased string
      */
     @SuppressWarnings("static-method")
-    public String snakeCase(String name) {
+    public static String snakeCase(String name) {
         return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
     }
 

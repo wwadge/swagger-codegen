@@ -156,7 +156,7 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
     public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
-        }        
+        }
         return "`" + name + "`";
     }
 

@@ -1,7 +1,7 @@
 {{>licenseInfo}}
 {{#models}}
 {{#model}}
-import * as models from './models';
+import * as Models from './models';
 
 {{#description}}
 /**
@@ -11,3 +11,4 @@ import * as models from './models';
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}
 {{/model}}
 {{/models}}
+
