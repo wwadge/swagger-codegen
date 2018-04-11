@@ -13,7 +13,7 @@ pipeline {
       }
     }
     options {
-      gitLabConnection('git.ozan.com')
+      gitLabConnection('git.akcegroup.com')
       gitlabBuilds(builds: ['build'])
       buildDiscarder(logRotator(numToKeepStr: '10'))
     }
