@@ -25,8 +25,8 @@ import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import java.security.Principal;
-
 import java.util.*;
+import org.springframework.web.bind.annotation.RequestHeader;
 {{#async}}
 import java.util.concurrent.Callable;
 {{/async}}{{/jdk8-no-delegate}}
@@ -35,6 +35,8 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 {{/useBeanValidation}}
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+
 
 @Validated
 @RestController
@@ -60,7 +62,7 @@ public class {{classname}}Controller {
                 return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
             }
         };{{/async}}{{/isDelegate}}{{#isDelegate}}
-        {{#isReturnRequired}}return {{/isReturnRequired}}delegate.{{operationId}}({{#allParams}}{{^isClientParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/isClientParam}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}predicate, pageable, sortable, principal{{/isListContainer}}{{^isListContainer}}{{#hasParams}}, {{/hasParams}}principal{{/isListContainer}});{{/isDelegate}}
+        {{#isReturnRequired}}return {{/isReturnRequired}}delegate.{{operationId}}({{#allParams}}{{^isClientParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/isClientParam}}{{/allParams}}{{#isListContainer}}{{#hasParams}}, {{/hasParams}}predicate, pageable, sortable, headers, principal{{/isListContainer}}{{^isListContainer}}{{#hasParams}}, {{/hasParams}}headers, principal{{/isListContainer}});{{/isDelegate}}
     }
 {{/operation}}{{/jdk8-no-delegate}}
 }
