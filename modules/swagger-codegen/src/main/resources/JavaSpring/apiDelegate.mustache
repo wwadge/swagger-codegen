@@ -29,6 +29,7 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
  * Instead, use spring to autowire this class into the {@link {{classname}}Controller}.
  */
 {{>generatedAnnotation}}
+@SuppressWarnings("unchecked")
 public interface {{classname}}Delegate {
 
 {{#operation}}
