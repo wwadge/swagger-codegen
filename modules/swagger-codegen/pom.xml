@@ -177,18 +177,18 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-parser</artifactId>
-            <version>${swagger-parser-version}</version>
+            <version>1.0.28</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-compat-spec-parser</artifactId>
-            <version>${swagger-parser-version}</version>
+            <version>1.0.28</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>swagger-core</artifactId>
-            <version>${swagger-core-version}</version>
+            <version>1.5.12</version>
         </dependency>
         <dependency>
             <groupId>com.samskivert</groupId>
