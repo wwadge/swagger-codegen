@@ -1,9 +1,0 @@
-{
-  "basePackage": "com.friends",
-  "apiPackage": "com.friends.transactionhandler.controller",
-  "modelPackage": "com.friends.transactionhandler.api",
-  "configPackage": "com.friends.config",
-"dateLibrary": "java8",
- "delegatePattern": "true",
-"useBeanValidation": "true"
-}

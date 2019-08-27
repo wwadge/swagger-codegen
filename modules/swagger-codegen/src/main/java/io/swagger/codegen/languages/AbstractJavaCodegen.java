@@ -314,11 +314,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
-//        importMapping.put("EntityId", "com.friends.commons.entity.EntityId");
         importMapping.put("Page", "org.springframework.data.domain.Page");
         importMapping.put("PageImpl", "org.springframework.data.domain.PageImpl");
         importMapping.put("Collectors", "java.util.stream.Collectors");
-//        importMapping.put("QueryDslBinder", "QueryDslBinder");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("LocalDate", "java.time.LocalDate");
 
